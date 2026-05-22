@@ -55,7 +55,7 @@
     overflow: hidden;
     border-bottom: 1px solid var(--border);
   }
-  .header-icon { font-size: 36px; margin-bottom: 8px; display: block; position: relative; z-index: 1; }
+
   .header h1 {
     font-size: 22px;
     font-weight: 900;
@@ -178,10 +178,7 @@
   }
   .toggle.on::after { transform: translateX(-22px); }
 
-  .foil-section { display: none; border-top: 1px solid var(--border); }
-  .foil-section.visible { display: block; }
-
-  /* Results */
+  /* Color badges */
   .results-card {
     background: linear-gradient(135deg, #1d1430 0%, #1a1428 100%);
     border-radius: var(--radius);
@@ -195,15 +192,12 @@
   .result-value { font-size: 18px; font-weight: 700; color: var(--text); }
 
   .result-main { text-align: center; padding: 16px 0 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .result-main-label { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 4px; text-align: center; }
   .result-main-value { font-size: 38px; font-weight: 900; background: linear-gradient(135deg, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
   .result-total-iqd { text-align: center; background: rgba(62,207,142,0.08); border-radius: var(--radius-sm); padding: 12px; margin-top: 12px; }
-  .result-total-iqd .value { font-size: 24px; font-weight: 900; color: var(--green); }
-
-  .breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
-  .breakdown-item { background: var(--surface); border-radius: var(--radius-sm); padding: 10px 12px; border: 1px solid var(--border); }
-  .breakdown-item .b-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
-  .breakdown-item .b-value { font-size: 18px; font-weight: 700; color: var(--text); }
+  .result-total-iqd .label { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-align: center; }
+  .result-total-iqd .value { font-size: 24px; font-weight: 900; color: var(--green); text-align: center; }
 
   /* Color badges */
   .ic-orange { background: rgba(245,166,35,0.15); }
@@ -234,7 +228,7 @@
 <body>
 
 <div class="header">
-  <span class="header-icon">🖨️</span>
+  
   <h1>حاسبة تكلفة الطباعة</h1>
   <p>احسب تكلفة أوردر الطباعة بدقة وسرعة</p>
 </div>
@@ -243,20 +237,20 @@
 
   <div class="card">
     <div class="input-row">
-      <div class="row-icon ic-gold">💰</div>
+      
       <div class="row-label">سعر صرف الدولار</div>
       <div class="stepper-container">
-        <button class="stepper-btn" onmousedown="startStep(event, 'exchangeRate', 50, true)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'exchangeRate', 50, true)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" id="exchangeRate" value="1,550" onchange="updateExchangeDisplay()" oninput="formatInput(this)">
-        <button class="stepper-btn" onmousedown="startStep(event, 'exchangeRate', -50, true)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'exchangeRate', -50, true)" ontouchend="stopStep()">-</button>
+        <button class="stepper-btn" onmousedown="startStep(event, 'exchangeRate', 50)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'exchangeRate', 50)" ontouchend="stopStep()">+</button>
+        <input class="row-input" type="text" id="exchangeRate" value="1,550" oninput="formatInput(this)">
+        <button class="stepper-btn" onmousedown="startStep(event, 'exchangeRate', -50)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'exchangeRate', -50)" ontouchend="stopStep()">-</button>
       </div>
     </div>
   </div>
 
-  <div class="section-title">⚙️ معلومات الأوردر</div>
+  <div class="section-title">معلومات الأوردر</div>
   <div class="card">
     <div class="input-row">
-      <div class="row-icon ic-orange">📋</div>
+      
       <div class="row-label">عدد المطبوع</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'printQty', 500)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'printQty', 500)" ontouchend="stopStep()">+</button>
@@ -265,7 +259,7 @@
       </div>
     </div>
     <div class="input-row">
-      <div class="row-icon ic-blue">🎨</div>
+      
       <div class="row-label">عدد التصميم على البند</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'designPerItem', 1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'designPerItem', 1)" ontouchend="stopStep()">+</button>
@@ -274,33 +268,33 @@
       </div>
     </div>
     <div class="input-row">
-      <div class="row-icon ic-purple">📄</div>
+      
       <div class="row-label">عدد الورق</div>
       <div class="stepper-container">
         <input class="row-input" type="text" id="paperQty" value="" placeholder="0" readonly style="background: transparent; width: 139px; border-left: none; border-right: none;">
       </div>
     </div>
     <div class="input-row">
-      <div class="row-icon ic-purple">📦</div>
+      
       <div class="row-label">عدد البند المطلوب</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemQty', 0.5)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemQty', 0.5)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" id="itemQty" value="" placeholder="0" step="0.5" oninput="formatInput(this)">
+        <input class="row-input" type="text" id="itemQty" value="" placeholder="0" oninput="formatInput(this)">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemQty', -0.5)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemQty', -0.5)" ontouchend="stopStep()">-</button>
       </div>
     </div>
     <div class="input-row">
-      <div class="row-icon ic-green">💵</div>
+      
       <div class="row-label">سعر البند ($)</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemPrice', 1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemPrice', 1)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" id="itemPrice" value="35" step="0.5" oninput="formatInput(this)">
+        <input class="row-input" type="text" id="itemPrice" value="35" oninput="formatInput(this)">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemPrice', -1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemPrice', -1)" ontouchend="stopStep()">-</button>
       </div>
     </div>
   </div>
 
-  <div class="section-title">🏭 تكاليف المواد (IQD)</div>
+  <div class="section-title">تكاليف المواد (IQD)</div>
   <div class="card">
     <div class="input-row"><div class="row-label">الطبع</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPrint', 10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrint', 10000)" ontouchend="stopStep()">+</button><input class="row-input" id="costPrint" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPrint', -10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrint', -10000)" ontouchend="stopStep()">-</button></div></div>
     <div class="input-row"><div class="row-label">البليت</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPlate', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPlate', 5000)" ontouchend="stopStep()">+</button><input class="row-input" id="costPlate" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPlate', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPlate', -5000)" ontouchend="stopStep()">-</button></div></div>
@@ -316,7 +310,7 @@
   <div class="section-divider"></div>
   <div class="card">
     <div class="input-row">
-      <div class="row-icon ic-green">📈</div>
+      
       <div class="row-label">الارباح</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'profitValue', 10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'profitValue', 10000)" ontouchend="stopStep()">+</button>
@@ -328,7 +322,7 @@
 
 
   <div id="resultsSection" style="display:none; margin-top:20px;">
-    <div class="section-title">📊 النتائج</div>
+    <div class="section-title">النتائج</div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
 
@@ -371,12 +365,12 @@
 <div class="floating-total" id="floatingTotal">
   <div class="floating-content">
     <div style="text-align: right;">
-      <div class="floating-label">💰 للقطعة الواحدة</div>
+      <div class="floating-label">للقطعة الواحدة</div>
       <div id="floatPPPIQD" style="font-size: 22px; font-weight: 900; color: var(--green); line-height: 1.2;">— IQD</div>
       <div id="floatPPPUSD" style="font-size: 14px; font-weight: 400; color: var(--muted); line-height: 1.2;">— $</div>
     </div>
     <div style="text-align: left;">
-      <div class="floating-label">💎 إجمالي الطلب</div>
+      <div class="floating-label">إجمالي الطلب</div>
       <div id="floatTotalIQD" style="font-size: 18px; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">— IQD</div>
       <div id="floatTotalUSD" style="font-size: 12px; color: var(--muted);">— USD</div>
     </div>
@@ -384,7 +378,6 @@
 </div>
 
 <script>
-  let fEnabled = false;
   let stepInterval = null;
   let stepTimeout = null;
   let lastActionTime = 0;
@@ -417,29 +410,27 @@
     calculate();
   }
 
-  function step(id, v, isExchange = false) {
+  function step(id, v) {
     let el = document.getElementById(id);
     let current = parseNumber(el.value);
     let newVal = Math.max(0, current + v);
     el.value = formatNumber(newVal);
-    
-    if (isExchange) updateExchangeDisplay();
     if (id === 'printQty' || id === 'designPerItem') updateAutoFields();
     calculate();
   }
 
-  function startStep(e, id, v, isExchange = false) {
+  function startStep(e, id, v) {
     if (e.type === 'mousedown' && 'ontouchstart' in window) return;
     e.preventDefault();
     let now = Date.now();
     if (now - lastActionTime < 150) return;
     lastActionTime = now;
 
-    step(id, v, isExchange);
+    step(id, v);
     stopStep();
     stepTimeout = setTimeout(() => {
       stepInterval = setInterval(() => {
-        step(id, v, isExchange);
+        step(id, v);
       }, 100); 
     }, 650);
   }
@@ -447,17 +438,6 @@
   function stopStep() {
     clearTimeout(stepTimeout);
     clearInterval(stepInterval);
-  }
-
-  function toggleFoil() {
-    fEnabled = !fEnabled;
-    document.getElementById('fToggle').classList.toggle('on', fEnabled);
-    document.getElementById('fSec').style.display = fEnabled ? 'block' : 'none';
-    calculate();
-  }
-
-  function updateExchangeDisplay() {
-    calculate();
   }
 
   function updateAutoFields() {
@@ -512,7 +492,9 @@
     document.getElementById('rTotalIQD_B').textContent = fmt(totalWithProfit * ex, 0) + ' IQD';
     document.getElementById('rTotalUSD_B').textContent = fmt(totalWithProfit, 2) + ' USD';
     
-    document.getElementById('resultsSection').style.display = 'block';
+    let hasInput = qty > 0 || totalUSD > 0;
+    document.getElementById('resultsSection').style.display = hasInput ? 'block' : 'none';
+    if (!hasInput) { document.getElementById('floatingTotal').classList.remove('show'); return; }
     document.getElementById('floatPPPIQD').textContent = fmt(pppIQD, 0) + ' IQD';
     document.getElementById('floatPPPUSD').textContent = fmt(ppp, 4) + ' $';
     document.getElementById('floatTotalIQD').textContent = fmt(totalUSD * ex, 0) + ' IQD';
