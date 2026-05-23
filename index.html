@@ -223,6 +223,165 @@
   .floating-total.show { display: block; }
   .floating-content { max-width: 500px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
   .floating-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+  /* Save PDF Button */
+  .save-pdf-btn {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin: 16px auto 0;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    color: #0f0f14;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+
+  /* PDF Modal Overlay */
+  .pdf-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 99999;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    overflow-y: auto;
+    padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  }
+  .pdf-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+
+  .pdf-modal {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 480px;
+    padding: 24px;
+    margin: auto;
+  }
+
+  .pdf-modal-title {
+    font-size: 18px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .pdf-modal-sub {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .pdf-section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin: 18px 0 8px;
+  }
+
+  .pdf-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin-bottom: 8px;
+  }
+  .pdf-field label { font-size: 15px; font-weight: 600; color: var(--text); }
+  .pdf-field input[type="text"] {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    width: 120px;
+    padding: 6px 8px;
+    outline: none;
+  }
+  .pdf-field-readonly {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .pdf-preview-box {
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin-top: 18px;
+    text-align: center;
+  }
+  .pdf-preview-box .preview-title {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .pdf-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    text-align: right;
+  }
+  .pdf-preview-cell {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+  }
+  .pdf-preview-cell .pc-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .pdf-preview-cell .pc-value { font-size: 17px; font-weight: 900; color: var(--green); }
+  .pdf-preview-cell .pc-sub { font-size: 11px; color: var(--muted); }
+
+  .pdf-modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .pdf-cancel-btn {
+    padding: 13px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--muted);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .pdf-print-btn {
+    padding: 13px;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    border: none;
+    border-radius: var(--radius-sm);
+    color: #0f0f14;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  /* Print stylesheet — what actually prints */
+
 </style>
 </head>
 <body>
@@ -359,8 +518,85 @@
       </div>
 
     </div>
+
+    <button class="save-pdf-btn" onclick="openPdfModal()">حفظ PDF</button>
+
   </div>
 </div>
+
+<!-- PDF Modal -->
+<div class="pdf-overlay" id="pdfOverlay">
+  <div class="pdf-modal">
+    <div class="pdf-modal-title">حفظ كـ PDF</div>
+    <div class="pdf-modal-sub">أضف المعلومات قبل الطباعة</div>
+
+    <div class="pdf-section-label">معلومات الأوردر</div>
+
+    <div style="margin-bottom:8px;">
+      <div style="font-size:13px; font-weight:600; color:var(--muted); margin-bottom:4px;">اسم الزبون</div>
+      <input type="text" id="pdfCustomer" placeholder="اختياري" style="width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Cairo',sans-serif; font-size:15px; font-weight:600; padding:10px 12px; outline:none; box-sizing:border-box;">
+    </div>
+
+    <div style="margin-bottom:8px;">
+      <div style="font-size:13px; font-weight:600; color:var(--muted); margin-bottom:4px;">اسم العمل</div>
+      <textarea id="pdfJobName" placeholder="اختياري" rows="2" style="width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Cairo',sans-serif; font-size:15px; font-weight:600; padding:10px 12px; outline:none; box-sizing:border-box; resize:vertical; min-height:52px;"></textarea>
+    </div>
+
+    <div class="pdf-field">
+      <label>التاريخ</label>
+      <input type="text" id="pdfDate" placeholder="">
+    </div>
+
+    <div class="pdf-section-label">القيم المحسوبة</div>
+    <div class="pdf-field">
+      <label>كمية المطبوع</label>
+      <span class="pdf-field-readonly" id="pdfQty">—</span>
+    </div>
+    <div class="pdf-field">
+      <label>سعر صرف الدولار</label>
+      <span class="pdf-field-readonly" id="pdfEx">—</span>
+    </div>
+
+    <div class="pdf-section-label">الأرباح</div>
+    <div class="pdf-field">
+      <label>الأرباح (IQD)</label>
+      <input type="text" id="pdfProfit" placeholder="0" oninput="updatePdfPreview()">
+    </div>
+
+    <div class="pdf-preview-box">
+      <div class="preview-title">معاينة النتائج</div>
+      <div class="pdf-preview-grid">
+        <div class="pdf-preview-cell">
+          <div class="pc-label">كلفة المفرد</div>
+          <div class="pc-value" id="pvCostIQD">—</div>
+          <div class="pc-sub" id="pvCostUSD">—</div>
+        </div>
+        <div class="pdf-preview-cell">
+          <div class="pc-label">سعر المفرد</div>
+          <div class="pc-value" id="pvPriceIQD">—</div>
+          <div class="pc-sub" id="pvPriceUSD">—</div>
+        </div>
+        <div class="pdf-preview-cell">
+          <div class="pc-label">الكلفة الاجمالية</div>
+          <div class="pc-value" style="font-size:14px;" id="pvTotalCostIQD">—</div>
+          <div class="pc-sub" id="pvTotalCostUSD">—</div>
+        </div>
+        <div class="pdf-preview-cell">
+          <div class="pc-label">السعر الاجمالي</div>
+          <div class="pc-value" style="font-size:14px;" id="pvTotalPriceIQD">—</div>
+          <div class="pc-sub" id="pvTotalPriceUSD">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pdf-modal-actions">
+      <button class="pdf-cancel-btn" onclick="closePdfModal()">إلغاء</button>
+      <button class="pdf-print-btn" onclick="doPrint()">طباعة / PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden print area -->
 
 <div class="floating-total" id="floatingTotal">
   <div class="floating-content">
@@ -502,6 +738,323 @@
     document.getElementById('floatingTotal').classList.add('show');
   }
 
+  // ── PDF Modal ──────────────────────────────────────────
+  let _pdfBase = {};
+
+  function openPdfModal() {
+    let ex  = v('exchangeRate');
+    let qty = v('printQty');
+    let iqdMaterials = v('costPrint') + v('costPlate') + v('costCut') + v('costCello') + v('costMold') + v('costGlue') + v('costUV') + v('costPack') + v('costOther');
+    let materialsInUSD = ex > 0 ? iqdMaterials / ex : 0;
+    let totalUSD = materialsInUSD + v('itemQty') * v('itemPrice');
+    _pdfBase = { ex, qty, totalUSD };
+
+    document.getElementById('pdfQty').textContent = fmt(qty, 0);
+    document.getElementById('pdfEx').textContent  = fmt(ex, 0);
+    document.getElementById('pdfProfit').value    = document.getElementById('profitValue').value || '';
+    // Pre-fill today's date
+    if (!document.getElementById('pdfDate').value) {
+      let now = new Date();
+      document.getElementById('pdfDate').value =
+        now.getDate().toString().padStart(2,'0') + '/' +
+        (now.getMonth()+1).toString().padStart(2,'0') + '/' +
+        now.getFullYear();
+    }
+    updatePdfPreview();
+    document.getElementById('pdfOverlay').classList.add('open');
+  }
+
+  function closePdfModal() {
+    document.getElementById('pdfOverlay').classList.remove('open');
+  }
+
+  function updatePdfPreview() {
+    let { ex, qty, totalUSD } = _pdfBase;
+    if (!ex || !qty) return;
+    let profitIQD       = parseNumber(document.getElementById('pdfProfit').value);
+    let totalWithProfit = totalUSD + (ex > 0 ? profitIQD / ex : 0);
+    let costPPP  = qty > 0 ? totalUSD / qty : 0;
+    let pricePPP = qty > 0 ? totalWithProfit / qty : 0;
+    document.getElementById('pvCostIQD').textContent       = fmt(costPPP * ex, 0) + ' IQD';
+    document.getElementById('pvCostUSD').textContent       = fmt(costPPP, 4) + ' $';
+    document.getElementById('pvPriceIQD').textContent      = fmt(pricePPP * ex, 0) + ' IQD';
+    document.getElementById('pvPriceUSD').textContent      = fmt(pricePPP, 4) + ' $';
+    document.getElementById('pvTotalCostIQD').textContent  = fmt(totalUSD * ex, 0) + ' IQD';
+    document.getElementById('pvTotalCostUSD').textContent  = fmt(totalUSD, 2) + ' $';
+    document.getElementById('pvTotalPriceIQD').textContent = fmt(totalWithProfit * ex, 0) + ' IQD';
+    document.getElementById('pvTotalPriceUSD').textContent = fmt(totalWithProfit, 2) + ' $';
+  }
+
+  function doPrint() {
+    let { ex, qty, totalUSD } = _pdfBase;
+    let profitIQD       = parseNumber(document.getElementById('pdfProfit').value);
+    let totalWithProfit = totalUSD + (ex > 0 ? profitIQD / ex : 0);
+    let costPPP         = qty > 0 ? totalUSD / qty : 0;
+    let pricePPP        = qty > 0 ? totalWithProfit / qty : 0;
+    let customer        = document.getElementById('pdfCustomer').value.trim();
+    let jobName         = document.getElementById('pdfJobName').value.trim();
+    let date            = document.getElementById('pdfDate').value.trim();
+
+    // Individual cost values
+    let costs = {
+      print:  v('costPrint'),
+      plate:  v('costPlate'),
+      cut:    v('costCut'),
+      cello:  v('costCello'),
+      mold:   v('costMold'),
+      glue:   v('costGlue'),
+      uv:     v('costUV'),
+      foil:   v('costPack'),
+      other:  v('costOther'),
+    };
+
+    function val(n, dec=0) { return n > 0 ? fmt(n, dec) : '—'; }
+
+    let html = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>طباعة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    color: #000;
+    background: #fff;
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+  }
+  body {
+    /* Margins from SVG: left=19.5mm, right=19.5mm, top=~20mm */
+    padding: 20mm 19.5mm 10mm 19.5mm;
+    position: relative;
+  }
+
+  /* ── HEADER ── */
+  /* Lines at: 37mm, 51.3mm, 65.5mm from top → relative to content: ~17, 31.3, 45.5mm */
+  .hdr-row {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    height: 14.25mm; /* spacing between lines: 37, 51.3, 65.5 → ~14.25mm each */
+    border-bottom: 0.5pt solid #b2b2b2;
+    font-size: 12.5pt;
+  }
+  .hdr-row:first-child { border-top: 0.5pt solid #b2b2b2; }
+  .hdr-lbl { font-weight: 900; white-space: nowrap; }
+  .hdr-val { font-weight: 400; }
+
+  .hdr-split {
+    display: flex;
+    align-items: center;
+    height: 14.25mm;
+    border-bottom: 0.5pt solid #b2b2b2;
+    font-size: 12.5pt;
+  }
+  .hdr-split-right { flex: 1; display: flex; align-items: center; gap: 3mm; }
+  .hdr-split-left  { flex: 1; display: flex; align-items: center; gap: 3mm; }
+
+  /* ── SECTION TITLE ── */
+  .sec-title {
+    font-size: 13pt;
+    font-weight: 900;
+    text-decoration: underline;
+    text-align: right;
+    margin-top: 5mm;
+    margin-bottom: 2mm;
+  }
+
+  /* ── MATERIALS 3-COL ── */
+  /* 3 equal cols, each ~57mm wide */
+  .mat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-top: 1pt solid #000;
+  }
+  .mat-cell {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    height: 12mm; /* rows at 108.8, 120.8mm → 12mm apart */
+    border-bottom: 0.5pt solid #9d9d9c;
+    font-size: 12pt;
+    padding: 0 2mm;
+  }
+  .mc-lbl { font-weight: 600; }
+  .mc-val { font-weight: 400; color: #333; }
+
+  /* ── PROFIT PILL ── */
+  /* Centered, pill border, at ~138mm from top */
+  .profit-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8mm;
+    border: 1.5pt solid #000;
+    border-radius: 30pt;
+    padding: 3mm 16mm;
+    margin: 5mm auto;
+    width: fit-content;
+    font-size: 13.5pt;
+  }
+  .pp-lbl { font-weight: 700; }
+  .pp-val { font-weight: 900; }
+
+  /* ── RESULTS ── */
+  /* Top border at 177.5mm, row line at 193.4mm */
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1.5pt solid #000;
+    margin-top: 5mm;
+  }
+  /* Right col = كلفة المفرد, Left col = سعر المفرد */
+  .res-right { border-left: 0.5pt solid #b2b2b2; padding: 0 2mm; }
+  .res-left  { padding: 0 2mm; }
+  .res-row {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    height: 15.9mm; /* 193.4 - 177.5 = 15.9mm */
+    border-bottom: 0.5pt solid #b2b2b2;
+    font-size: 12pt;
+  }
+  .res-row:last-child { border-bottom: none; }
+  .res-lbl { font-weight: 600; color: #333; }
+  .res-val-main  { font-weight: 900; font-size: 16pt; }
+  .res-val-total { font-weight: 700; font-size: 13pt; }
+
+  /* ── NOTES ── */
+  /* Notes from ~212mm, footer line at 265.6mm → ~53mm for notes */
+  .notes-title {
+    font-size: 13pt;
+    font-weight: 900;
+    text-decoration: underline;
+    text-align: right;
+    margin-top: 5mm;
+    margin-bottom: 1mm;
+  }
+  .note-line {
+    border-bottom: 0.5pt dashed #b2b2b2;
+    height: 13mm;
+  }
+
+  /* ── FOOTER ── */
+  /* At y=265.6mm from top. Content padding-top=20mm, so 265.6-20=245.6mm from content top */
+  .footer {
+    position: absolute;
+    bottom: 10mm;
+    right: 19.5mm;
+    left: 19.5mm;
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    border-top: 0.5pt dashed #b2b2b2;
+    padding-top: 2.5mm;
+    font-size: 12pt;
+  }
+  .f-lbl { font-weight: 700; }
+  .f-val { font-weight: 400; }
+
+  @page { size: A4; margin: 0; }
+  @media print { html, body { width: 210mm; height: 297mm; } }
+</style>
+</head>
+<body>
+
+  <!-- HEADER: 3 rows + 1 split row -->
+  <div class="hdr-row">
+    <span class="hdr-lbl">التاريخ:</span>
+    <span class="hdr-val">${date}</span>
+  </div>
+  <div class="hdr-row">
+    <span class="hdr-lbl">اسم الزبون:</span>
+    <span class="hdr-val">${customer}</span>
+  </div>
+  <div class="hdr-row">
+    <span class="hdr-lbl">اسم العمل:</span>
+    <span class="hdr-val">${jobName}</span>
+  </div>
+  <div class="hdr-split">
+    <div class="hdr-split-right">
+      <span class="hdr-lbl">كمية المطبوع:</span>
+      <span>${fmt(qty,0)}</span>
+    </div>
+    <div class="hdr-split-left">
+      <span class="hdr-lbl">سعر البند ($):</span>
+      <span>${fmt(v('itemPrice'),2)}</span>
+    </div>
+  </div>
+
+  <!-- MATERIALS: 3 cols × 3 rows, RTL order -->
+  <div class="sec-title">تكاليف المواد</div>
+  <div class="mat-grid">
+    <div class="mat-cell"><span class="mc-lbl">طبع</span><span class="mc-val">${val(costs.print)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">سلفنة</span><span class="mc-val">${val(costs.cello)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">سبوت يوڤي</span><span class="mc-val">${val(costs.uv)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">بليت</span><span class="mc-val">${val(costs.plate)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">قالب</span><span class="mc-val">${val(costs.mold)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">فويل</span><span class="mc-val">${val(costs.foil)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">كص</span><span class="mc-val">${val(costs.cut)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">لصق</span><span class="mc-val">${val(costs.glue)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">مصاريف اخرى</span><span class="mc-val">${val(costs.other)}</span></div>
+  </div>
+
+  <!-- PROFIT PILL -->
+  <div class="profit-pill">
+    <span class="pp-lbl">الارباح</span>
+    <span class="pp-val">${val(profitIQD)}</span>
+  </div>
+
+  <!-- RESULTS: 2 cols -->
+  <div class="sec-title">الكلفة والسعر</div>
+  <div class="results-grid">
+    <div class="res-right">
+      <div class="res-row">
+        <span class="res-lbl">كلفة المفرد</span>
+        <span class="res-val-main">${fmt(costPPP * ex, 0)}</span>
+      </div>
+      <div class="res-row">
+        <span class="res-lbl">الكلفة الاجمالية</span>
+        <span class="res-val-total">${fmt(totalUSD * ex, 0)}</span>
+      </div>
+    </div>
+    <div class="res-left">
+      <div class="res-row">
+        <span class="res-lbl">سعر المفرد</span>
+        <span class="res-val-main">${fmt(pricePPP * ex, 0)}</span>
+      </div>
+      <div class="res-row">
+        <span class="res-lbl">السعر الاجمالي</span>
+        <span class="res-val-total">${fmt(totalWithProfit * ex, 0)}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes-title">الملاحظات</div>
+  <div class="note-line"></div>
+  <div class="note-line"></div>
+  <div class="note-line"></div>
+  <div class="note-line"></div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="f-lbl">سعر الدولار</span>
+    <span class="f-val">${fmt(ex, 0)}</span>
+  </div>
+
+</body></html>`;
+
+    let pw = window.open('', '_blank', 'width=900,height=1200');
+    pw.document.write(html);
+    pw.document.close();
+    pw.onload = function() { setTimeout(() => { pw.focus(); pw.print(); }, 800); };
+    closePdfModal();
+  }
   calculate();
 </script>
 
