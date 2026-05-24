@@ -230,11 +230,11 @@
     width: 100%;
     max-width: 500px;
     margin: 16px auto 0;
-    padding: 14px;
+    padding: 10px;
     background: linear-gradient(135deg, var(--accent), var(--gold));
     color: #0f0f14;
     font-family: 'Cairo', sans-serif;
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 900;
     border: none;
     border-radius: var(--radius);
@@ -282,6 +282,13 @@
     margin-bottom: 20px;
   }
 
+  .pdf-input-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
+  }
+
   .pdf-section-label {
     font-size: 12px;
     font-weight: 700;
@@ -300,7 +307,7 @@
     padding: 10px 14px;
     margin-bottom: 8px;
   }
-  .pdf-field label { font-size: 15px; font-weight: 600; color: var(--text); }
+  .pdf-field label { font-size: 15px; font-weight: 600; color: #ffffff; }
   .pdf-field input[type="text"] {
     background: var(--input-bg);
     border: 1px solid var(--border);
@@ -400,7 +407,7 @@
       <div class="row-label">سعر صرف الدولار</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'exchangeRate', 50)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'exchangeRate', 50)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" id="exchangeRate" value="1,550" oninput="formatInput(this)">
+        <input class="row-input" type="text" inputmode="decimal" id="exchangeRate" value="1,550" oninput="formatInput(this)">
         <button class="stepper-btn" onmousedown="startStep(event, 'exchangeRate', -50)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'exchangeRate', -50)" ontouchend="stopStep()">-</button>
       </div>
     </div>
@@ -413,7 +420,7 @@
       <div class="row-label">عدد المطبوع</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'printQty', 500)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'printQty', 500)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" id="printQty" value="" placeholder="0" oninput="formatInput(this); updateAutoFields();">
+        <input class="row-input" type="text" inputmode="decimal" id="printQty" value="" placeholder="0" oninput="formatInput(this); updateAutoFields();">
         <button class="stepper-btn" onmousedown="startStep(event, 'printQty', -500)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'printQty', -500)" ontouchend="stopStep()">-</button>
       </div>
     </div>
@@ -422,7 +429,7 @@
       <div class="row-label">عدد التصميم على البند</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'designPerItem', 1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'designPerItem', 1)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" id="designPerItem" value="" placeholder="0" oninput="formatInput(this); updateAutoFields();">
+        <input class="row-input" type="text" inputmode="decimal" id="designPerItem" value="" placeholder="0" oninput="formatInput(this); updateAutoFields();">
         <button class="stepper-btn" onmousedown="startStep(event, 'designPerItem', -1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'designPerItem', -1)" ontouchend="stopStep()">-</button>
       </div>
     </div>
@@ -430,7 +437,7 @@
       
       <div class="row-label">عدد الورق</div>
       <div class="stepper-container">
-        <input class="row-input" type="text" id="paperQty" value="" placeholder="0" readonly style="background: transparent; width: 139px; border-left: none; border-right: none;">
+        <input class="row-input" type="text" inputmode="decimal" id="paperQty" value="" placeholder="0" readonly style="background: transparent; width: 139px; border-left: none; border-right: none;">
       </div>
     </div>
     <div class="input-row">
@@ -438,7 +445,7 @@
       <div class="row-label">عدد البند المطلوب</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemQty', 0.5)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemQty', 0.5)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" id="itemQty" value="" placeholder="0" oninput="formatInput(this)">
+        <input class="row-input" type="text" inputmode="decimal" id="itemQty" value="" placeholder="0" oninput="formatInput(this)">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemQty', -0.5)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemQty', -0.5)" ontouchend="stopStep()">-</button>
       </div>
     </div>
@@ -447,7 +454,7 @@
       <div class="row-label">سعر البند ($)</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemPrice', 1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemPrice', 1)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" id="itemPrice" value="35" oninput="formatInput(this)">
+        <input class="row-input" type="text" inputmode="decimal" id="itemPrice" value="35" oninput="formatInput(this)">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemPrice', -1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemPrice', -1)" ontouchend="stopStep()">-</button>
       </div>
     </div>
@@ -473,7 +480,7 @@
       <div class="row-label">الارباح</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'profitValue', 10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'profitValue', 10000)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" id="profitValue" value="" placeholder="0" oninput="formatInput(this)">
+        <input class="row-input" type="text" inputmode="decimal" id="profitValue" value="" placeholder="0" oninput="formatInput(this)">
         <button class="stepper-btn" onmousedown="startStep(event, 'profitValue', -10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'profitValue', -10000)" ontouchend="stopStep()">-</button>
       </div>
     </div>
@@ -533,12 +540,12 @@
     <div class="pdf-section-label">معلومات الأوردر</div>
 
     <div style="margin-bottom:8px;">
-      <div style="font-size:13px; font-weight:600; color:var(--muted); margin-bottom:4px;">اسم الزبون</div>
+      <div class="pdf-input-label">اسم الزبون</div>
       <input type="text" id="pdfCustomer" placeholder="اختياري" style="width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Cairo',sans-serif; font-size:15px; font-weight:600; padding:10px 12px; outline:none; box-sizing:border-box;">
     </div>
 
     <div style="margin-bottom:8px;">
-      <div style="font-size:13px; font-weight:600; color:var(--muted); margin-bottom:4px;">اسم العمل</div>
+      <div class="pdf-input-label">اسم العمل</div>
       <textarea id="pdfJobName" placeholder="اختياري" rows="2" style="width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Cairo',sans-serif; font-size:15px; font-weight:600; padding:10px 12px; outline:none; box-sizing:border-box; resize:vertical; min-height:52px;"></textarea>
     </div>
 
@@ -642,8 +649,13 @@
     }
     
     let newLen = el.value.length;
-    el.setSelectionRange(cursor + (newLen - oldLen), cursor + (newLen - oldLen));
-    calculate();
+
+    if (document.activeElement === el && typeof el.setSelectionRange === 'function') {
+        let pos = cursor + (newLen - oldLen);
+        el.setSelectionRange(pos, pos);
+    }
+
+    triggerCalculate();
   }
 
   function step(id, v) {
@@ -691,10 +703,36 @@
     
     let itemQty = paperQty / 100;
     document.getElementById('itemQty').value = itemQty === 0 ? "" : formatNumber(itemQty);
+
+    let autoPrintCost = itemQty * 10000;
+    document.getElementById('costPrint').value = autoPrintCost === 0 ? "" : formatNumber(autoPrintCost);
+  }
+
+  const costFields = [
+    'costPrint',
+    'costPlate',
+    'costCut',
+    'costCello',
+    'costMold',
+    'costGlue',
+    'costUV',
+    'costPack',
+    'costOther'
+  ];
+
+  function getTotalMaterialCosts() {
+    return costFields.reduce((sum, id) => sum + v(id), 0);
   }
 
   function v(id) { return parseNumber(document.getElementById(id).value); }
   function fmt(n, dec=2) { return n.toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec}); }
+
+  let calculateDebounce = null;
+
+  function triggerCalculate() {
+    clearTimeout(calculateDebounce);
+    calculateDebounce = setTimeout(calculate, 60);
+  }
 
   function calculate() {
     let ex = v('exchangeRate');
@@ -702,7 +740,7 @@
     let itemQty = v('itemQty');
     let itemPrice = v('itemPrice');
     
-    let iqdMaterials = v('costPrint') + v('costPlate') + v('costCut') + v('costCello') + v('costMold') + v('costGlue') + v('costUV') + v('costPack') + v('costOther');
+    let iqdMaterials = getTotalMaterialCosts();
     let materialsInUSD = ex > 0 ? iqdMaterials / ex : 0;
 
     let itemResultUSD = itemQty * itemPrice;
@@ -731,6 +769,10 @@
     let hasInput = qty > 0 || totalUSD > 0;
     document.getElementById('resultsSection').style.display = hasInput ? 'block' : 'none';
     if (!hasInput) { document.getElementById('floatingTotal').classList.remove('show'); return; }
+    updateFloatingBar(pppIQD, ppp, totalUSD, ex);
+  }
+
+  function updateFloatingBar(pppIQD, ppp, totalUSD, ex) {
     document.getElementById('floatPPPIQD').textContent = fmt(pppIQD, 0) + ' IQD';
     document.getElementById('floatPPPUSD').textContent = fmt(ppp, 4) + ' $';
     document.getElementById('floatTotalIQD').textContent = fmt(totalUSD * ex, 0) + ' IQD';
@@ -744,7 +786,7 @@
   function openPdfModal() {
     let ex  = v('exchangeRate');
     let qty = v('printQty');
-    let iqdMaterials = v('costPrint') + v('costPlate') + v('costCut') + v('costCello') + v('costMold') + v('costGlue') + v('costUV') + v('costPack') + v('costOther');
+    let iqdMaterials = getTotalMaterialCosts();
     let materialsInUSD = ex > 0 ? iqdMaterials / ex : 0;
     let totalUSD = materialsInUSD + v('itemQty') * v('itemPrice');
     _pdfBase = { ex, qty, totalUSD };
