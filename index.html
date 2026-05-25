@@ -24,7 +24,6 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* iOS Safari Compatibility Fixes */
   html {
     -webkit-text-size-adjust: 100%;
   }
@@ -35,7 +34,7 @@
   }
 
   input, select, textarea {
-    font-size: 16px !important; /* Prevents auto-zoom on focus on iPhone */
+    font-size: 16px !important;
   }
   
   body {
@@ -43,10 +42,9 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding-bottom: 100px; /* Space for floating bar */
+    padding-bottom: 100px;
   }
 
-  /* Header */
   .header {
     background: linear-gradient(135deg, #1a0a2e 0%, #16112a 50%, #0f0f1e 100%);
     padding: 28px 20px 24px;
@@ -68,7 +66,6 @@
 
   .container { padding: 16px; max-width: 500px; margin: 0 auto; }
 
-  /* Section title */
   .section-title {
     font-size: 13px;
     font-weight: 700;
@@ -82,7 +79,6 @@
   }
   .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* Divider only */
   .section-divider {
     height: 1px;
     background: var(--border);
@@ -90,7 +86,6 @@
     width: 100%;
   }
 
-  /* Card */
   .card {
     background: var(--card);
     border-radius: var(--radius);
@@ -99,7 +94,6 @@
     margin-bottom: 12px;
   }
 
-  /* Input row */
   .input-row {
     display: flex;
     align-items: center;
@@ -118,7 +112,6 @@
 
   .row-label { flex: 1; font-size: 16px; font-weight: 600; color: var(--text); }
 
-  /* Stepper / Input Control */
   .stepper-container {
     display: flex;
     align-items: center;
@@ -157,7 +150,6 @@
     outline: none;
   }
 
-  /* Toggle */
   .toggle-row { display: flex; align-items: center; padding: 14px 16px; gap: 12px; }
   .toggle-label { flex: 1; font-size: 16px; font-weight: 600; }
   .toggle {
@@ -178,7 +170,6 @@
   }
   .toggle.on::after { transform: translateX(-22px); }
 
-  /* Color badges */
   .results-card {
     background: linear-gradient(135deg, #1d1430 0%, #1a1428 100%);
     border-radius: var(--radius);
@@ -199,20 +190,17 @@
   .result-total-iqd .label { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-align: center; }
   .result-total-iqd .value { font-size: 24px; font-weight: 900; color: var(--green); text-align: center; }
 
-  /* Color badges */
   .ic-orange { background: rgba(245,166,35,0.15); }
   .ic-blue { background: rgba(80,140,255,0.15); }
   .ic-purple { background: rgba(160,90,255,0.15); }
   .ic-green { background: rgba(62,207,142,0.15); }
   .ic-gold { background: rgba(245,200,66,0.15); }
 
-  /* Floating Bar - Fixed for iOS */
   .floating-total {
     position: fixed;
     bottom: 0; left: 0; right: 0;
     background: linear-gradient(135deg, #1d1430 0%, #1a1428 100%);
     border-top: 2px solid var(--accent);
-    /* Extra padding for iPhone notch/home bar */
     padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
     box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
     z-index: 9999;
@@ -224,7 +212,6 @@
   .floating-content { max-width: 500px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
   .floating-label { font-size: 13px; color: var(--muted); font-weight: 600; }
 
-  /* Save PDF Button */
   .save-pdf-btn {
     display: block;
     width: 100%;
@@ -242,7 +229,6 @@
     letter-spacing: 0.5px;
   }
 
-  /* PDF Modal Overlay */
   .pdf-overlay {
     display: none;
     position: fixed;
@@ -386,15 +372,11 @@
     font-weight: 900;
     cursor: pointer;
   }
-
-  /* Print stylesheet — what actually prints */
-
 </style>
 </head>
 <body>
 
 <div class="header">
-  
   <h1>حاسبة تكلفة الطباعة</h1>
   <p>احسب تكلفة أوردر الطباعة بدقة وسرعة</p>
 </div>
@@ -403,7 +385,6 @@
 
   <div class="card">
     <div class="input-row">
-      
       <div class="row-label">سعر صرف الدولار</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'exchangeRate', 50)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'exchangeRate', 50)" ontouchend="stopStep()">+</button>
@@ -416,7 +397,6 @@
   <div class="section-title">معلومات الأوردر</div>
   <div class="card">
     <div class="input-row">
-      
       <div class="row-label">عدد المطبوع</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'printQty', 500)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'printQty', 500)" ontouchend="stopStep()">+</button>
@@ -425,7 +405,6 @@
       </div>
     </div>
     <div class="input-row">
-      
       <div class="row-label">عدد التصميم على البند</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'designPerItem', 1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'designPerItem', 1)" ontouchend="stopStep()">+</button>
@@ -434,14 +413,12 @@
       </div>
     </div>
     <div class="input-row">
-      
       <div class="row-label">عدد الورق</div>
       <div class="stepper-container">
         <input class="row-input" type="text" inputmode="decimal" id="paperQty" value="" placeholder="0" readonly style="background: transparent; width: 139px; border-left: none; border-right: none;">
       </div>
     </div>
     <div class="input-row">
-      
       <div class="row-label">عدد البند المطلوب</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemQty', 0.5)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemQty', 0.5)" ontouchend="stopStep()">+</button>
@@ -450,7 +427,6 @@
       </div>
     </div>
     <div class="input-row">
-      
       <div class="row-label">سعر البند ($)</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemPrice', 1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemPrice', 1)" ontouchend="stopStep()">+</button>
@@ -469,14 +445,13 @@
     <div class="input-row"><div class="row-label">قالب</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costMold', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costMold', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costMold" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costMold', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costMold', -5000)" ontouchend="stopStep()">-</button></div></div>
     <div class="input-row"><div class="row-label">لصق</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costGlue', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costGlue', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costGlue" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costGlue', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costGlue', -5000)" ontouchend="stopStep()">-</button></div></div>
     <div class="input-row"><div class="row-label">سبوت يوڤي</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costUV', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costUV', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costUV" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costUV', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costUV', -5000)" ontouchend="stopStep()">-</button></div></div>
-    <div class="input-row"><div class="row-label">فويل</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPack', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPack', 5000)" ontouchend="stopStep()">+</button><input class="row-input" id="costPack" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPack', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPack', -5000)" ontouchend="stopStep()">-</button></div></div>
-    <div class="input-row"><div class="row-label">مصاريف اخرى</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costOther', 1000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costOther', 1000)" ontouchend="stopStep()">+</button><input class="row-input" id="costOther" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costOther', -1000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costOther', -1000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">فويل</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPack', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPack', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costPack" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPack', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPack', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">مصاريف اخرى</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costOther', 1000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costOther', 1000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costOther" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costOther', -1000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costOther', -1000)" ontouchend="stopStep()">-</button></div></div>
   </div>
 
   <div class="section-divider"></div>
   <div class="card">
     <div class="input-row">
-      
       <div class="row-label">الارباح</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'profitValue', 10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'profitValue', 10000)" ontouchend="stopStep()">+</button>
@@ -486,13 +461,9 @@
     </div>
   </div>
 
-
   <div id="resultsSection" style="display:none; margin-top:20px;">
     <div class="section-title">النتائج</div>
-
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
-
-      <!-- Card A -->
       <div class="results-card" style="margin-top:0;">
         <div class="result-main">
           <div class="result-main-label">كلفة المفرد</div>
@@ -507,8 +478,6 @@
           <div id="rTotalUSD" style="font-size:15px; color:rgba(62,207,142,0.6); margin-top:4px;">—</div>
         </div>
       </div>
-
-      <!-- Card B -->
       <div class="results-card" style="margin-top:0;">
         <div class="result-main">
           <div class="result-main-label">سعر المفرد</div>
@@ -523,46 +492,34 @@
           <div id="rTotalUSD_B" style="font-size:15px; color:rgba(62,207,142,0.6); margin-top:4px;">—</div>
         </div>
       </div>
-
     </div>
-
     <button class="save-pdf-btn" onclick="openPdfModal()">حفظ PDF</button>
-
   </div>
 </div>
 
-<!-- PDF Modal -->
 <div class="pdf-overlay" id="pdfOverlay">
   <div class="pdf-modal">
     <div class="pdf-modal-title">حفظ كـ PDF</div>
     <div class="pdf-modal-sub">أضف المعلومات قبل الطباعة</div>
-
     <div class="pdf-section-label">معلومات الأوردر</div>
-
     <div style="margin-bottom:8px;">
       <div class="pdf-input-label">اسم الزبون</div>
       <input type="text" id="pdfCustomer" placeholder="اختياري" style="width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Cairo',sans-serif; font-size:15px; font-weight:600; padding:10px 12px; outline:none; box-sizing:border-box;">
     </div>
-
     <div style="margin-bottom:8px;">
       <div class="pdf-input-label">اسم العمل</div>
       <textarea id="pdfJobName" placeholder="اختياري" rows="2" style="width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Cairo',sans-serif; font-size:15px; font-weight:600; padding:10px 12px; outline:none; box-sizing:border-box; resize:vertical; min-height:52px;"></textarea>
     </div>
-
     <div class="pdf-field">
       <label>التاريخ</label>
       <input type="text" id="pdfDate" placeholder="">
     </div>
-
-
     <div class="pdf-modal-actions">
       <button class="pdf-cancel-btn" onclick="closePdfModal()">إلغاء</button>
       <button class="pdf-print-btn" onclick="doPrint()">حفظ PDF</button>
     </div>
   </div>
 </div>
-
-<!-- Hidden print area -->
 
 <div class="floating-total" id="floatingTotal">
   <div class="floating-content">
@@ -608,12 +565,10 @@
     }
     
     let newLen = el.value.length;
-
     if (document.activeElement === el && typeof el.setSelectionRange === 'function') {
         let pos = cursor + (newLen - oldLen);
         el.setSelectionRange(pos, pos);
     }
-
     triggerCalculate();
   }
 
@@ -633,7 +588,6 @@
     let now = Date.now();
     if (now - lastActionTime < 150) return;
     lastActionTime = now;
-
     step(id, v);
     stopStep();
     stepTimeout = setTimeout(() => {
@@ -664,30 +618,16 @@
         document.getElementById('itemQty').value = "";
         return;
     }
-
     let paperQty = des > 0 ? Math.ceil(qty / des) : 0;
     document.getElementById('paperQty').value = paperQty === 0 ? "" : formatNumber(paperQty);
-    
     let itemQtyExact = paperQty / 100;
-    let itemQty = Math.ceil(itemQtyExact * 2) / 2;  // Round up to nearest 0.5
+    let itemQty = Math.ceil(itemQtyExact * 2) / 2;
     document.getElementById('itemQty').value = itemQty === 0 ? "" : formatNumber(itemQty);
-
     let autoPrintCost = itemQty * 10000;
     document.getElementById('costPrint').value = autoPrintCost === 0 ? "" : formatNumber(autoPrintCost);
   }
 
-  const costFields = [
-    'costPrint',
-    'costPlate',
-    'costCut',
-    'costCello',
-    'costMold',
-    'costGlue',
-    'costUV',
-    'costPack',
-    'costOther'
-  ];
-
+  const costFields = ['costPrint','costPlate','costCut','costCello','costMold','costGlue','costUV','costPack','costOther'];
   function getTotalMaterialCosts() {
     return costFields.reduce((sum, id) => sum + v(id), 0);
   }
@@ -696,7 +636,6 @@
   function fmt(n, dec=2) { return n.toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec}); }
 
   let calculateDebounce = null;
-
   function triggerCalculate() {
     clearTimeout(calculateDebounce);
     calculateDebounce = setTimeout(calculate, 60);
@@ -707,23 +646,18 @@
     let qty = v('printQty');
     let itemQty = v('itemQty');
     let itemPrice = v('itemPrice');
-    
     let iqdMaterials = getTotalMaterialCosts();
     let materialsInUSD = ex > 0 ? iqdMaterials / ex : 0;
-
     let itemResultUSD = itemQty * itemPrice;
     let totalMaterialsUSD = materialsInUSD + itemResultUSD;
     let pieces = qty;
-
     let totalUSD = totalMaterialsUSD;
     let ppp = pieces > 0 ? totalUSD / pieces : 0;
     let pppIQD = ppp * ex;
-
     document.getElementById('rPricePerPiece').textContent = fmt(ppp, 4);
     document.getElementById('rPricePerPieceIQD').textContent = fmt(pppIQD, 0);
     document.getElementById('rTotalIQD').textContent = fmt(totalUSD * ex, 0) + ' IQD';
     document.getElementById('rTotalUSD').textContent = fmt(totalUSD, 2) + ' USD';
-    // Card B — سعر القطعة الواحدة (with profit added)
     let profitIQD = v('profitValue');
     let profitUSD = ex > 0 ? profitIQD / ex : 0;
     let totalWithProfit = totalUSD + profitUSD;
@@ -733,7 +667,6 @@
     document.getElementById('rPricePerPieceIQD_B').textContent = fmt(pppWithProfitIQD, 0);
     document.getElementById('rTotalIQD_B').textContent = fmt(totalWithProfit * ex, 0) + ' IQD';
     document.getElementById('rTotalUSD_B').textContent = fmt(totalWithProfit, 2) + ' USD';
-    
     let hasInput = qty > 0 || totalUSD > 0;
     document.getElementById('resultsSection').style.display = hasInput ? 'block' : 'none';
     if (!hasInput) { document.getElementById('floatingTotal').classList.remove('show'); return; }
@@ -748,74 +681,37 @@
     document.getElementById('floatingTotal').classList.add('show');
   }
 
-  // ── PDF Modal ──────────────────────────────────────────
   let _pdfBase = {};
-
   function openPdfModal() {
-    let ex  = v('exchangeRate');
+    let ex = v('exchangeRate');
     let qty = v('printQty');
     let iqdMaterials = getTotalMaterialCosts();
     let materialsInUSD = ex > 0 ? iqdMaterials / ex : 0;
     let totalUSD = materialsInUSD + v('itemQty') * v('itemPrice');
     _pdfBase = { ex, qty, totalUSD };
-
-    // Pre-fill today's date
     if (!document.getElementById('pdfDate').value) {
       let now = new Date();
-      document.getElementById('pdfDate').value =
-        now.getFullYear() + '/' +
-        (now.getMonth()+1).toString().padStart(2,'0') + '/' +
-        now.getDate().toString().padStart(2,'0');
+      document.getElementById('pdfDate').value = now.getFullYear() + '/' + (now.getMonth()+1).toString().padStart(2,'0') + '/' + now.getDate().toString().padStart(2,'0');
     }
     document.getElementById('pdfOverlay').classList.add('open');
   }
-
-  function closePdfModal() {
-    document.getElementById('pdfOverlay').classList.remove('open');
-  }
-
+  function closePdfModal() { document.getElementById('pdfOverlay').classList.remove('open'); }
   function formatFilename(customer, jobName, date) {
-    // Get first 2 words from customer and job name
-    let getWords = (text) => {
-      if (!text) return 'بدون_عنوان';
-      let words = text.trim().split(/\s+/).slice(0, 2);
-      return words.join('_');
-    };
-    
-    // Convert date from yyyy/mm/dd to yymmdd
-    let dateYYMMDD = date.split('/').map((part, i) => {
-      if (i === 0) return part.slice(-2);  // Get last 2 digits of year
-      return part;
-    }).join('');
-    
+    let getWords = (text) => { if (!text) return 'بدون_عنوان'; let words = text.trim().split(/\s+/).slice(0,2); return words.join('_'); };
+    let dateYYMMDD = date.split('/').map((part,i) => i===0 ? part.slice(-2) : part).join('');
     return getWords(customer) + '_' + getWords(jobName) + '_' + dateYYMMDD;
   }
-
   function doPrint() {
     let { ex, qty, totalUSD } = _pdfBase;
-    let profitIQD       = v('profitValue');
+    let profitIQD = v('profitValue');
     let totalWithProfit = totalUSD + (ex > 0 ? profitIQD / ex : 0);
-    let costPPP         = qty > 0 ? totalUSD / qty : 0;
-    let pricePPP        = qty > 0 ? totalWithProfit / qty : 0;
-    let customer        = document.getElementById('pdfCustomer').value.trim();
-    let jobName         = document.getElementById('pdfJobName').value.trim();
-    let date            = document.getElementById('pdfDate').value.trim();
-
-    // Individual cost values
-    let costs = {
-      print:  v('costPrint'),
-      plate:  v('costPlate'),
-      cut:    v('costCut'),
-      cello:  v('costCello'),
-      mold:   v('costMold'),
-      glue:   v('costGlue'),
-      uv:     v('costUV'),
-      foil:   v('costPack'),
-      other:  v('costOther'),
-    };
-
+    let costPPP = qty > 0 ? totalUSD / qty : 0;
+    let pricePPP = qty > 0 ? totalWithProfit / qty : 0;
+    let customer = document.getElementById('pdfCustomer').value.trim();
+    let jobName = document.getElementById('pdfJobName').value.trim();
+    let date = document.getElementById('pdfDate').value.trim();
+    let costs = { print: v('costPrint'), plate: v('costPlate'), cut: v('costCut'), cello: v('costCello'), mold: v('costMold'), glue: v('costGlue'), uv: v('costUV'), foil: v('costPack'), other: v('costOther') };
     function val(n, dec=0) { return n > 0 ? fmt(n, dec) : '—'; }
-
     let html = `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -824,178 +720,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    font-family: 'Cairo', sans-serif;
-    direction: rtl;
-    color: #000;
-    background: #fff;
-    width: 210mm;
-    height: 297mm;
-    overflow: hidden;
-  }
-  body {
-    /* Margins from SVG: left=19.5mm, right=19.5mm, top=~20mm */
-    padding: 20mm 19.5mm 10mm 19.5mm;
-    position: relative;
-  }
-
-  /* ── HEADER ── */
-  /* Lines at: 37mm, 51.3mm, 65.5mm from top → relative to content: ~17, 31.3, 45.5mm */
-  .hdr-row {
-    display: flex;
-    align-items: center;
-    gap: 4mm;
-    height: 14.25mm; /* spacing between lines: 37, 51.3, 65.5 → ~14.25mm each */
-    border-bottom: 0.5pt solid #b2b2b2;
-    font-size: 12.5pt;
-  }
+  html, body { font-family: 'Cairo', sans-serif; direction: rtl; color: #000; background: #fff; width: 210mm; height: 297mm; overflow: hidden; }
+  body { padding: 20mm 19.5mm 10mm 19.5mm; position: relative; }
+  .hdr-row { display: flex; align-items: center; gap: 4mm; height: 14.25mm; border-bottom: 0.5pt solid #b2b2b2; font-size: 12.5pt; }
   .hdr-row:first-child { border-top: 0.5pt solid #b2b2b2; }
   .hdr-lbl { font-weight: 900; white-space: nowrap; }
   .hdr-val { font-weight: 400; }
-
-  .hdr-split {
-    display: flex;
-    align-items: center;
-    height: 14.25mm;
-    border-bottom: 0.5pt solid #b2b2b2;
-    font-size: 12.5pt;
-  }
+  .hdr-split { display: flex; align-items: center; height: 14.25mm; border-bottom: 0.5pt solid #b2b2b2; font-size: 12.5pt; }
   .hdr-split-right { flex: 1; display: flex; align-items: center; gap: 3mm; }
-  .hdr-split-left  { flex: 1; display: flex; align-items: center; gap: 3mm; }
-
-  /* ── SECTION TITLE ── */
-  .sec-title {
-    font-size: 13pt;
-    font-weight: 900;
-    text-decoration: underline;
-    text-align: right;
-    margin-top: 5mm;
-    margin-bottom: 2mm;
-  }
-
-  /* ── MATERIALS 3-COL ── */
-  /* 3 equal cols, each ~57mm wide */
-  .mat-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    border-top: 1pt solid #000;
-  }
-  .mat-cell {
-    display: flex;
-    align-items: center;
-    gap: 3mm;
-    height: 12mm; /* rows at 108.8, 120.8mm → 12mm apart */
-    border-bottom: 0.5pt solid #9d9d9c;
-    font-size: 12pt;
-    padding: 0 2mm;
-  }
+  .hdr-split-left { flex: 1; display: flex; align-items: center; gap: 3mm; }
+  .sec-title { font-size: 13pt; font-weight: 900; text-decoration: underline; text-align: right; margin-top: 5mm; margin-bottom: 2mm; }
+  .mat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1pt solid #000; }
+  .mat-cell { display: flex; align-items: center; gap: 3mm; height: 12mm; border-bottom: 0.5pt solid #9d9d9c; font-size: 12pt; padding: 0 2mm; }
   .mc-lbl { font-weight: 600; }
   .mc-val { font-weight: 400; color: #333; }
-
-  /* ── PROFIT PILL ── */
-  /* Centered, pill border, at ~138mm from top */
-  .profit-pill {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8mm;
-    border: 1.5pt solid #000;
-    border-radius: 30pt;
-    padding: 3mm 16mm;
-    margin: 5mm auto;
-    width: fit-content;
-    font-size: 13.5pt;
-  }
+  .profit-pill { display: flex; align-items: center; justify-content: center; gap: 8mm; border: 1.5pt solid #000; border-radius: 30pt; padding: 3mm 16mm; margin: 5mm auto; width: fit-content; font-size: 13.5pt; }
   .pp-lbl { font-weight: 700; }
   .pp-val { font-weight: 900; }
-
-  /* ── RESULTS ── */
-  /* Top border at 177.5mm, row line at 193.4mm */
-  .results-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-top: 1.5pt solid #000;
-    margin-top: 5mm;
-  }
-  /* Right col = كلفة المفرد, Left col = سعر المفرد */
+  .results-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1.5pt solid #000; margin-top: 5mm; }
   .res-right { border-left: 0.5pt solid #b2b2b2; padding: 0 2mm; }
-  .res-left  { padding: 0 2mm; }
-  .res-row {
-    display: flex;
-    align-items: center;
-    gap: 4mm;
-    height: 15.9mm; /* 193.4 - 177.5 = 15.9mm */
-    border-bottom: 0.5pt solid #b2b2b2;
-    font-size: 12pt;
-  }
+  .res-left { padding: 0 2mm; }
+  .res-row { display: flex; align-items: center; gap: 4mm; height: 15.9mm; border-bottom: 0.5pt solid #b2b2b2; font-size: 12pt; }
   .res-row:last-child { border-bottom: none; }
   .res-lbl { font-weight: 600; color: #333; }
-  .res-val-main  { font-weight: 900; font-size: 16pt; }
+  .res-val-main { font-weight: 900; font-size: 16pt; }
   .res-val-total { font-weight: 700; font-size: 13pt; }
-
-  /* ── NOTES ── */
-  /* Notes from ~212mm, footer line at 265.6mm → ~53mm for notes */
-  .notes-title {
-    font-size: 13pt;
-    font-weight: 900;
-    text-decoration: underline;
-    text-align: right;
-    margin-top: 5mm;
-    margin-bottom: 1mm;
-  }
-  .note-line {
-    border-bottom: 0.5pt dashed #b2b2b2;
-    height: 13mm;
-  }
-
-  /* ── FOOTER ── */
-  /* At y=265.6mm from top. Content padding-top=20mm, so 265.6-20=245.6mm from content top */
-  .footer {
-    position: absolute;
-    bottom: 10mm;
-    right: 19.5mm;
-    left: 19.5mm;
-    display: flex;
-    align-items: center;
-    gap: 3mm;
-    border-top: 0.5pt dashed #b2b2b2;
-    padding-top: 2.5mm;
-    font-size: 12pt;
-  }
+  .notes-title { font-size: 13pt; font-weight: 900; text-decoration: underline; text-align: right; margin-top: 5mm; margin-bottom: 1mm; }
+  .note-line { border-bottom: 0.5pt dashed #b2b2b2; height: 13mm; }
+  .footer { position: absolute; bottom: 10mm; right: 19.5mm; left: 19.5mm; display: flex; align-items: center; gap: 3mm; border-top: 0.5pt dashed #b2b2b2; padding-top: 2.5mm; font-size: 12pt; }
   .f-lbl { font-weight: 700; }
   .f-val { font-weight: 400; }
-
   @page { size: A4; margin: 0; }
   @media print { html, body { width: 210mm; height: 297mm; } }
 </style>
 </head>
 <body>
-
-  <!-- HEADER: 3 rows + 1 split row -->
-  <div class="hdr-row">
-    <span class="hdr-lbl">التاريخ:</span>
-    <span class="hdr-val">${date}</span>
-  </div>
-  <div class="hdr-row">
-    <span class="hdr-lbl">اسم الزبون:</span>
-    <span class="hdr-val">${customer}</span>
-  </div>
-  <div class="hdr-row">
-    <span class="hdr-lbl">اسم العمل:</span>
-    <span class="hdr-val">${jobName}</span>
-  </div>
-  <div class="hdr-split">
-    <div class="hdr-split-right">
-      <span class="hdr-lbl">كمية المطبوع:</span>
-      <span>${fmt(qty,0)}</span>
-    </div>
-    <div class="hdr-split-left">
-      <span class="hdr-lbl">سعر البند ($):</span>
-      <span>${fmt(v('itemPrice'),2)}</span>
-    </div>
-  </div>
-
-  <!-- MATERIALS: 3 cols × 3 rows, RTL order -->
+  <div class="hdr-row"><span class="hdr-lbl">التاريخ:</span><span class="hdr-val">${date}</span></div>
+  <div class="hdr-row"><span class="hdr-lbl">اسم الزبون:</span><span class="hdr-val">${customer}</span></div>
+  <div class="hdr-row"><span class="hdr-lbl">اسم العمل:</span><span class="hdr-val">${jobName}</span></div>
+  <div class="hdr-split"><div class="hdr-split-right"><span class="hdr-lbl">كمية المطبوع:</span><span>${fmt(qty,0)}</span></div><div class="hdr-split-left"><span class="hdr-lbl">سعر البند ($):</span><span>${fmt(v('itemPrice'),2)}</span></div></div>
   <div class="sec-title">تكاليف المواد</div>
   <div class="mat-grid">
     <div class="mat-cell"><span class="mc-lbl">طبع</span><span class="mc-val">${val(costs.print)}</span></div>
@@ -1008,69 +771,23 @@
     <div class="mat-cell"><span class="mc-lbl">لصق</span><span class="mc-val">${val(costs.glue)}</span></div>
     <div class="mat-cell"><span class="mc-lbl">مصاريف اخرى</span><span class="mc-val">${val(costs.other)}</span></div>
   </div>
-
-  <!-- PROFIT PILL -->
-  <div class="profit-pill">
-    <span class="pp-lbl">الارباح</span>
-    <span class="pp-val">${val(profitIQD)}</span>
-  </div>
-
-  <!-- RESULTS: 2 cols -->
+  <div class="profit-pill"><span class="pp-lbl">الارباح</span><span class="pp-val">${val(profitIQD)}</span></div>
   <div class="sec-title">الكلفة والسعر</div>
   <div class="results-grid">
-    <div class="res-right">
-      <div class="res-row">
-        <span class="res-lbl">كلفة المفرد</span>
-        <span class="res-val-main">${fmt(costPPP * ex, 0)}</span>
-      </div>
-      <div class="res-row">
-        <span class="res-lbl">الكلفة الاجمالية</span>
-        <span class="res-val-total">${fmt(totalUSD * ex, 0)}</span>
-      </div>
-    </div>
-    <div class="res-left">
-      <div class="res-row">
-        <span class="res-lbl">سعر المفرد</span>
-        <span class="res-val-main">${fmt(pricePPP * ex, 0)}</span>
-      </div>
-      <div class="res-row">
-        <span class="res-lbl">السعر الاجمالي</span>
-        <span class="res-val-total">${fmt(totalWithProfit * ex, 0)}</span>
-      </div>
-    </div>
+    <div class="res-right"><div class="res-row"><span class="res-lbl">كلفة المفرد</span><span class="res-val-main">${fmt(costPPP * ex, 0)}</span></div><div class="res-row"><span class="res-lbl">الكلفة الاجمالية</span><span class="res-val-total">${fmt(totalUSD * ex, 0)}</span></div></div>
+    <div class="res-left"><div class="res-row"><span class="res-lbl">سعر المفرد</span><span class="res-val-main">${fmt(pricePPP * ex, 0)}</span></div><div class="res-row"><span class="res-lbl">السعر الاجمالي</span><span class="res-val-total">${fmt(totalWithProfit * ex, 0)}</span></div></div>
   </div>
-
-  <!-- NOTES -->
   <div class="notes-title">الملاحظات</div>
-  <div class="note-line"></div>
-  <div class="note-line"></div>
-  <div class="note-line"></div>
-  <div class="note-line"></div>
-
-  <!-- FOOTER -->
-  <div class="footer">
-    <span class="f-lbl">سعر الدولار</span>
-    <span class="f-val">${fmt(ex, 0)}</span>
-  </div>
-
+  <div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div>
+  <div class="footer"><span class="f-lbl">سعر الدولار</span><span class="f-val">${fmt(ex, 0)}</span></div>
 </body></html>`;
-
     let pw = window.open('', '_blank', 'width=900,height=1200');
     pw.document.write(html);
     pw.document.close();
-    pw.onload = function() { 
-      setTimeout(() => { 
-        // Set the document title which becomes the PDF filename
-        let filename = formatFilename(customer, jobName, date);
-        pw.document.title = filename;
-        pw.focus(); 
-        pw.print(); 
-      }, 800); 
-    };
+    pw.onload = function() { setTimeout(() => { let filename = formatFilename(customer, jobName, date); pw.document.title = filename; pw.focus(); pw.print(); }, 800); };
     closePdfModal();
   }
   calculate();
 </script>
-
 </body>
 </html>
