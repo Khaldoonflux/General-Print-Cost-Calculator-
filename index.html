@@ -103,13 +103,6 @@
   }
   .input-row:last-child { border-bottom: none; }
 
-  .row-icon {
-    width: 38px; height: 38px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
-  }
-
   .row-label { flex: 1; font-size: 16px; font-weight: 600; color: var(--text); }
 
   .stepper-container {
@@ -150,26 +143,6 @@
     outline: none;
   }
 
-  .toggle-row { display: flex; align-items: center; padding: 14px 16px; gap: 12px; }
-  .toggle-label { flex: 1; font-size: 16px; font-weight: 600; }
-  .toggle {
-    width: 48px; height: 26px;
-    background: var(--border);
-    border-radius: 13px;
-    cursor: pointer;
-    position: relative;
-    transition: background 0.2s;
-    border: none; outline: none;
-  }
-  .toggle.on { background: var(--accent); }
-  .toggle::after {
-    content: '';
-    position: absolute; width: 20px; height: 20px;
-    background: white; border-radius: 50%;
-    top: 3px; right: 3px; transition: transform 0.2s;
-  }
-  .toggle.on::after { transform: translateX(-22px); }
-
   .results-card {
     background: linear-gradient(135deg, #1d1430 0%, #1a1428 100%);
     border-radius: var(--radius);
@@ -178,10 +151,6 @@
     margin-top: 8px;
   }
 
-  .result-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .result-label { font-size: 15px; color: var(--muted); font-weight: 600; }
-  .result-value { font-size: 18px; font-weight: 700; color: var(--text); }
-
   .result-main { text-align: center; padding: 16px 0 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
   .result-main-label { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 4px; text-align: center; }
   .result-main-value { font-size: 38px; font-weight: 900; background: linear-gradient(135deg, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -189,12 +158,6 @@
   .result-total-iqd { text-align: center; background: rgba(62,207,142,0.08); border-radius: var(--radius-sm); padding: 12px; margin-top: 12px; }
   .result-total-iqd .label { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-align: center; }
   .result-total-iqd .value { font-size: 24px; font-weight: 900; color: var(--green); text-align: center; }
-
-  .ic-orange { background: rgba(245,166,35,0.15); }
-  .ic-blue { background: rgba(80,140,255,0.15); }
-  .ic-purple { background: rgba(160,90,255,0.15); }
-  .ic-green { background: rgba(62,207,142,0.15); }
-  .ic-gold { background: rgba(245,200,66,0.15); }
 
   .floating-total {
     position: fixed;
@@ -307,42 +270,6 @@
     padding: 6px 8px;
     outline: none;
   }
-  .pdf-field-readonly {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--green);
-  }
-
-  .pdf-preview-box {
-    background: var(--card);
-    border: 1px dashed var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px;
-    margin-top: 18px;
-    text-align: center;
-  }
-  .pdf-preview-box .preview-title {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-  }
-  .pdf-preview-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    text-align: right;
-  }
-  .pdf-preview-cell {
-    background: var(--surface);
-    border-radius: 8px;
-    padding: 8px 10px;
-    border: 1px solid var(--border);
-  }
-  .pdf-preview-cell .pc-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
-  .pdf-preview-cell .pc-value { font-size: 17px; font-weight: 900; color: var(--green); }
-  .pdf-preview-cell .pc-sub { font-size: 11px; color: var(--muted); }
 
   .pdf-modal-actions {
     display: grid;
@@ -415,7 +342,7 @@
     <div class="input-row">
       <div class="row-label">عدد الورق</div>
       <div class="stepper-container">
-        <input class="row-input" type="text" inputmode="decimal" id="paperQty" value="" placeholder="0" readonly style="background: transparent; width: 139px; border-left: none; border-right: none;">
+        <input class="row-input" type="text" inputmode="decimal" id="paperQty" value="" placeholder="0" readonly style="background: transparent; width: 139px; border-left: none; border-right: none;" tabindex="-1">
       </div>
     </div>
     <div class="input-row">
