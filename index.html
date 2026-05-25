@@ -445,7 +445,7 @@
       <div class="row-label">عدد البند المطلوب</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemQty', 0.5)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemQty', 0.5)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" inputmode="decimal" id="itemQty" value="" placeholder="0" oninput="formatInput(this)">
+        <input class="row-input" type="text" inputmode="decimal" id="itemQty" value="" placeholder="0" oninput="formatInput(this); updateItemQtyRelated();">
         <button class="stepper-btn" onmousedown="startStep(event, 'itemQty', -0.5)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemQty', -0.5)" ontouchend="stopStep()">-</button>
       </div>
     </div>
@@ -462,13 +462,13 @@
 
   <div class="section-title">تكاليف المواد (IQD)</div>
   <div class="card">
-    <div class="input-row"><div class="row-label">طبع</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPrint', 10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrint', 10000)" ontouchend="stopStep()">+</button><input class="row-input" id="costPrint" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPrint', -10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrint', -10000)" ontouchend="stopStep()">-</button></div></div>
-    <div class="input-row"><div class="row-label">بليت</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPlate', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPlate', 5000)" ontouchend="stopStep()">+</button><input class="row-input" id="costPlate" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPlate', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPlate', -5000)" ontouchend="stopStep()">-</button></div></div>
-    <div class="input-row"><div class="row-label">كص</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costCut', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCut', 5000)" ontouchend="stopStep()">+</button><input class="row-input" id="costCut" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costCut', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCut', -5000)" ontouchend="stopStep()">-</button></div></div>
-    <div class="input-row"><div class="row-label">سلفنة</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costCello', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCello', 5000)" ontouchend="stopStep()">+</button><input class="row-input" id="costCello" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costCello', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCello', -5000)" ontouchend="stopStep()">-</button></div></div>
-    <div class="input-row"><div class="row-label">قالب</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costMold', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costMold', 5000)" ontouchend="stopStep()">+</button><input class="row-input" id="costMold" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costMold', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costMold', -5000)" ontouchend="stopStep()">-</button></div></div>
-    <div class="input-row"><div class="row-label">لصق</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costGlue', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costGlue', 5000)" ontouchend="stopStep()">+</button><input class="row-input" id="costGlue" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costGlue', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costGlue', -5000)" ontouchend="stopStep()">-</button></div></div>
-    <div class="input-row"><div class="row-label">سبوت يوڤي</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costUV', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costUV', 5000)" ontouchend="stopStep()">+</button><input class="row-input" id="costUV" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costUV', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costUV', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">طبع</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPrint', 10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrint', 10000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costPrint" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPrint', -10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrint', -10000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">بليت</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPlate', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPlate', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costPlate" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPlate', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPlate', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">كص</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costCut', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCut', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costCut" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costCut', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCut', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">سلفنة</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costCello', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCello', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costCello" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costCello', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCello', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">قالب</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costMold', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costMold', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costMold" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costMold', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costMold', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">لصق</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costGlue', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costGlue', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costGlue" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costGlue', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costGlue', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">سبوت يوڤي</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costUV', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costUV', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costUV" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costUV', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costUV', -5000)" ontouchend="stopStep()">-</button></div></div>
     <div class="input-row"><div class="row-label">فويل</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPack', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPack', 5000)" ontouchend="stopStep()">+</button><input class="row-input" id="costPack" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPack', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPack', -5000)" ontouchend="stopStep()">-</button></div></div>
     <div class="input-row"><div class="row-label">مصاريف اخرى</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costOther', 1000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costOther', 1000)" ontouchend="stopStep()">+</button><input class="row-input" id="costOther" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costOther', -1000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costOther', -1000)" ontouchend="stopStep()">-</button></div></div>
   </div>
@@ -623,6 +623,7 @@
     let newVal = Math.max(0, current + v);
     el.value = formatNumber(newVal);
     if (id === 'printQty' || id === 'designPerItem') updateAutoFields();
+    if (id === 'itemQty') updateItemQtyRelated();
     calculate();
   }
 
@@ -647,6 +648,13 @@
     clearInterval(stepInterval);
   }
 
+  function updateItemQtyRelated() {
+    let itemQty = v('itemQty');
+    let autoPrintCost = itemQty * 10000;
+    document.getElementById('costPrint').value = autoPrintCost === 0 ? "" : formatNumber(autoPrintCost);
+    triggerCalculate();
+  }
+
   function updateAutoFields() {
     let qty = v('printQty');
     let des = v('designPerItem');
@@ -660,7 +668,8 @@
     let paperQty = des > 0 ? Math.ceil(qty / des) : 0;
     document.getElementById('paperQty').value = paperQty === 0 ? "" : formatNumber(paperQty);
     
-    let itemQty = paperQty / 100;
+    let itemQtyExact = paperQty / 100;
+    let itemQty = Math.ceil(itemQtyExact * 2) / 2;  // Round up to nearest 0.5
     document.getElementById('itemQty').value = itemQty === 0 ? "" : formatNumber(itemQty);
 
     let autoPrintCost = itemQty * 10000;
@@ -763,6 +772,23 @@
 
   function closePdfModal() {
     document.getElementById('pdfOverlay').classList.remove('open');
+  }
+
+  function formatFilename(customer, jobName, date) {
+    // Get first 2 words from customer and job name
+    let getWords = (text) => {
+      if (!text) return 'بدون_عنوان';
+      let words = text.trim().split(/\s+/).slice(0, 2);
+      return words.join('_');
+    };
+    
+    // Convert date from yyyy/mm/dd to yymmdd
+    let dateYYMMDD = date.split('/').map((part, i) => {
+      if (i === 0) return part.slice(-2);  // Get last 2 digits of year
+      return part;
+    }).join('');
+    
+    return getWords(customer) + '_' + getWords(jobName) + '_' + dateYYMMDD;
   }
 
   function doPrint() {
@@ -1035,7 +1061,7 @@
     pw.onload = function() { 
       setTimeout(() => { 
         // Set the document title which becomes the PDF filename
-        let filename = (jobName || 'بدون_عنوان') + '_' + date.replace(/\//g, '-');
+        let filename = formatFilename(customer, jobName, date);
         pw.document.title = filename;
         pw.focus(); 
         pw.print(); 
