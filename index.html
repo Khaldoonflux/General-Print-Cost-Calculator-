@@ -468,6 +468,42 @@
   let stepTimeout = null;
   let lastActionTime = 0;
 
+  // Define focus order for Tab/Enter navigation
+  const focusOrder = [
+    'exchangeRate', 'printQty', 'designPerItem', 'itemQty', 'itemPrice',
+    'costPrint', 'costPlate', 'costCut', 'costCello', 'costMold', 'costGlue', 'costUV', 'costPack', 'costOther', 'profitValue'
+  ];
+
+  function moveFocus(currentId, forward = true) {
+    let currentIndex = focusOrder.indexOf(currentId);
+    if (currentIndex === -1) return;
+    let nextIndex = forward ? currentIndex + 1 : currentIndex - 1;
+    if (nextIndex >= 0 && nextIndex < focusOrder.length) {
+      let nextId = focusOrder[nextIndex];
+      let nextEl = document.getElementById(nextId);
+      if (nextEl) {
+        nextEl.focus();
+        nextEl.select();
+      }
+    }
+  }
+
+  // Attach keydown handler to all inputs
+  function attachTabHandler() {
+    for (let id of focusOrder) {
+      let el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('keydown', function(e) {
+          // Tab key (keyCode 9) or Enter key (13) - Android "Next" often sends Enter
+          if (e.key === 'Tab' || e.key === 'Enter') {
+            e.preventDefault();
+            moveFocus(this.id, true);
+          }
+        });
+      }
+    }
+  }
+
   function formatNumber(n) {
     if (n === "" || n === null || isNaN(n)) return "";
     let parts = n.toString().split(".");
@@ -714,6 +750,9 @@
     pw.onload = function() { setTimeout(() => { let filename = formatFilename(customer, jobName, date); pw.document.title = filename; pw.focus(); pw.print(); }, 800); };
     closePdfModal();
   }
+
+  // Initialize
+  attachTabHandler();
   calculate();
 </script>
 </body>
