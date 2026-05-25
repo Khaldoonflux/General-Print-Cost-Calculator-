@@ -554,51 +554,10 @@
       <input type="text" id="pdfDate" placeholder="">
     </div>
 
-    <div class="pdf-section-label">القيم المحسوبة</div>
-    <div class="pdf-field">
-      <label>كمية المطبوع</label>
-      <span class="pdf-field-readonly" id="pdfQty">—</span>
-    </div>
-    <div class="pdf-field">
-      <label>سعر صرف الدولار</label>
-      <span class="pdf-field-readonly" id="pdfEx">—</span>
-    </div>
-
-    <div class="pdf-section-label">الأرباح</div>
-    <div class="pdf-field">
-      <label>الأرباح (IQD)</label>
-      <input type="text" id="pdfProfit" placeholder="0" oninput="updatePdfPreview()">
-    </div>
-
-    <div class="pdf-preview-box">
-      <div class="preview-title">معاينة النتائج</div>
-      <div class="pdf-preview-grid">
-        <div class="pdf-preview-cell">
-          <div class="pc-label">كلفة المفرد</div>
-          <div class="pc-value" id="pvCostIQD">—</div>
-          <div class="pc-sub" id="pvCostUSD">—</div>
-        </div>
-        <div class="pdf-preview-cell">
-          <div class="pc-label">سعر المفرد</div>
-          <div class="pc-value" id="pvPriceIQD">—</div>
-          <div class="pc-sub" id="pvPriceUSD">—</div>
-        </div>
-        <div class="pdf-preview-cell">
-          <div class="pc-label">الكلفة الاجمالية</div>
-          <div class="pc-value" style="font-size:14px;" id="pvTotalCostIQD">—</div>
-          <div class="pc-sub" id="pvTotalCostUSD">—</div>
-        </div>
-        <div class="pdf-preview-cell">
-          <div class="pc-label">السعر الاجمالي</div>
-          <div class="pc-value" style="font-size:14px;" id="pvTotalPriceIQD">—</div>
-          <div class="pc-sub" id="pvTotalPriceUSD">—</div>
-        </div>
-      </div>
-    </div>
 
     <div class="pdf-modal-actions">
       <button class="pdf-cancel-btn" onclick="closePdfModal()">إلغاء</button>
-      <button class="pdf-print-btn" onclick="doPrint()">طباعة / PDF</button>
+      <button class="pdf-print-btn" onclick="doPrint()">حفظ PDF</button>
     </div>
   </div>
 </div>
@@ -791,9 +750,6 @@
     let totalUSD = materialsInUSD + v('itemQty') * v('itemPrice');
     _pdfBase = { ex, qty, totalUSD };
 
-    document.getElementById('pdfQty').textContent = fmt(qty, 0);
-    document.getElementById('pdfEx').textContent  = fmt(ex, 0);
-    document.getElementById('pdfProfit').value    = document.getElementById('profitValue').value || '';
     // Pre-fill today's date
     if (!document.getElementById('pdfDate').value) {
       let now = new Date();
@@ -802,7 +758,6 @@
         (now.getMonth()+1).toString().padStart(2,'0') + '/' +
         now.getDate().toString().padStart(2,'0');
     }
-    updatePdfPreview();
     document.getElementById('pdfOverlay').classList.add('open');
   }
 
@@ -810,26 +765,9 @@
     document.getElementById('pdfOverlay').classList.remove('open');
   }
 
-  function updatePdfPreview() {
-    let { ex, qty, totalUSD } = _pdfBase;
-    if (!ex || !qty) return;
-    let profitIQD       = parseNumber(document.getElementById('pdfProfit').value);
-    let totalWithProfit = totalUSD + (ex > 0 ? profitIQD / ex : 0);
-    let costPPP  = qty > 0 ? totalUSD / qty : 0;
-    let pricePPP = qty > 0 ? totalWithProfit / qty : 0;
-    document.getElementById('pvCostIQD').textContent       = fmt(costPPP * ex, 0) + ' IQD';
-    document.getElementById('pvCostUSD').textContent       = fmt(costPPP, 4) + ' $';
-    document.getElementById('pvPriceIQD').textContent      = fmt(pricePPP * ex, 0) + ' IQD';
-    document.getElementById('pvPriceUSD').textContent      = fmt(pricePPP, 4) + ' $';
-    document.getElementById('pvTotalCostIQD').textContent  = fmt(totalUSD * ex, 0) + ' IQD';
-    document.getElementById('pvTotalCostUSD').textContent  = fmt(totalUSD, 2) + ' $';
-    document.getElementById('pvTotalPriceIQD').textContent = fmt(totalWithProfit * ex, 0) + ' IQD';
-    document.getElementById('pvTotalPriceUSD').textContent = fmt(totalWithProfit, 2) + ' $';
-  }
-
   function doPrint() {
     let { ex, qty, totalUSD } = _pdfBase;
-    let profitIQD       = parseNumber(document.getElementById('pdfProfit').value);
+    let profitIQD       = v('profitValue');
     let totalWithProfit = totalUSD + (ex > 0 ? profitIQD / ex : 0);
     let costPPP         = qty > 0 ? totalUSD / qty : 0;
     let pricePPP        = qty > 0 ? totalWithProfit / qty : 0;
@@ -1094,7 +1032,15 @@
     let pw = window.open('', '_blank', 'width=900,height=1200');
     pw.document.write(html);
     pw.document.close();
-    pw.onload = function() { setTimeout(() => { pw.focus(); pw.print(); }, 800); };
+    pw.onload = function() { 
+      setTimeout(() => { 
+        // Set the document title which becomes the PDF filename
+        let filename = (jobName || 'بدون_عنوان') + '_' + date.replace(/\//g, '-');
+        pw.document.title = filename;
+        pw.focus(); 
+        pw.print(); 
+      }, 800); 
+    };
     closePdfModal();
   }
   calculate();
