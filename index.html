@@ -7,17 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0f14;
-    --surface: #1a1a24;
-    --card: #22222f;
-    --accent: #f5a623;
-    --accent2: #e05c2a;
-    --gold: #f5c842;
-    --text: #f0eef8;
-    --muted: #7a7890;
-    --border: #2e2e40;
-    --input-bg: #13131c;
-    --green: #3ecf8e;
+    --bg: #0a0410;
+    --surface: #1a0f2e;
+    --card: #2d1b4e;
+    --accent: #ffc107;
+    --accent2: #ffb300;
+    --gold: #ffdb58;
+    --text: #ffffff;
+    --muted: #b0a0d0;
+    --border: rgba(255, 193, 7, 0.15);
+    --input-bg: rgba(0, 0, 0, 0.2);
+    --green: #00ff88;
     --radius: 16px;
     --radius-sm: 10px;
   }
@@ -39,14 +39,35 @@
   
   body {
     font-family: 'Cairo', sans-serif;
-    background: var(--bg);
+    background: linear-gradient(135deg, #0a0410 0%, #1a0f2e 50%, #2d1b4e 100%);
+    background-attachment: fixed;
     color: var(--text);
     min-height: 100vh;
     padding-bottom: 100px;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  body > * {
+    position: relative;
+    z-index: 1;
   }
 
   .header {
-    background: linear-gradient(135deg, #1a0a2e 0%, #16112a 50%, #0f0f1e 100%);
+    background: linear-gradient(135deg, #0f0521 0%, #1a0f2e 50%, #2d1b4e 100%);
     padding: 28px 20px 24px;
     text-align: center;
     position: relative;
@@ -87,11 +108,13 @@
   }
 
   .card {
-    background: var(--card);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: var(--radius);
-    border: 1px solid var(--border);
+    border: 1px solid rgba(255, 193, 7, 0.2);
     overflow: hidden;
     margin-bottom: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .input-row {
@@ -108,10 +131,12 @@
   .stepper-container {
     display: flex;
     align-items: center;
-    background: var(--input-bg);
-    border: 1.5px solid var(--border);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1.5px solid rgba(255, 193, 7, 0.15);
     border-radius: var(--radius-sm);
     overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
   .stepper-btn {
     width: 32px; height: 42px;
@@ -144,11 +169,13 @@
   }
 
   .results-card {
-    background: linear-gradient(135deg, #1d1430 0%, #1a1428 100%);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: var(--radius);
-    border: 1px solid rgba(245,166,35,0.25);
+    border: 1px solid rgba(255, 193, 7, 0.2);
     padding: 20px;
     margin-top: 8px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .result-main { text-align: center; padding: 16px 0 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
@@ -162,14 +189,14 @@
   .floating-total {
     position: fixed;
     bottom: 0; left: 0; right: 0;
-    background: linear-gradient(135deg, #1d1430 0%, #1a1428 100%);
+    background: rgba(10, 4, 16, 0.5);
     border-top: 2px solid var(--accent);
     padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 -4px 20px rgba(255, 193, 7, 0.1);
     z-index: 9999;
     display: none;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
   }
   .floating-total.show { display: block; }
   .floating-content { max-width: 500px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
@@ -305,7 +332,6 @@
 
 <div class="header">
   <h1>حاسبة تكلفة الطباعة</h1>
-  <p>احسب تكلفة أوردر الطباعة بدقة وسرعة</p>
 </div>
 
 <div class="container">
