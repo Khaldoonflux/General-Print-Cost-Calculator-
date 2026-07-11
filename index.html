@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0a0410">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="حاسبة الطباعة">
+<title>حاسبة تكلفة الطباعة</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 894 894'><defs><style>.cls-1{fill:%231d1d1b;}.cls-2{fill:%23fff;}.cls-3{fill:%23009fe3;}.cls-4{fill:%23ffed00;}.cls-5{fill:%23e6007e;}</style></defs><rect class='cls-1' x='428.84' y='-161.64' width='36.31' height='1217.28' rx='18.16' transform='translate(-185.15 447) rotate(-45)'/><rect class='cls-1' x='-161.64' y='428.84' width='1217.28' height='36.31' rx='18.16' transform='translate(-185.15 447) rotate(-45)'/><circle class='cls-2' cx='447' cy='447' r='128.72'/><path class='cls-2' d='M429.68,428.5v-330c-178.28,8.74-321.27,151.73-330,330Z'/><path class='cls-2' d='M794.34,428.5C785.62,250.77,643.5,108.13,466,98.57V428.5Z'/><path class='cls-2' d='M466,464.81V793.06c176.94-9.53,318.72-151.3,328.25-328.25Z'/><path class='cls-2' d='M99.76,464.81c9.56,177.5,152.2,319.63,329.92,328.35V464.81Z'/><path class='cls-3' d='M447,421.32,680.36,188C548.11,68.08,345.89,68.08,213.64,188Z'/><path class='cls-1' d='M704.85,679.18C824.36,547.34,824.72,346,706,213.71L472.68,447Z'/><path class='cls-4' d='M447,472.68,214.89,704.79c131.86,118.38,332.36,118.38,464.22,0Z'/><path class='cls-5' d='M188,213.71C69.28,346,69.64,547.34,189.15,679.18L421.32,447Z'/></svg>">
+<link rel="apple-touch-icon" href="icon-printing-calculator.jpg">
+<link rel="manifest" href="data:application/manifest+json,{%22name%22:%22حاسبة%20تكلفة%20الطباعة%22,%22short_name%22:%22حاسبة%20الطباعة%22,%22icons%22:[{%22src%22:%22icon-printing-calculator.jpg%22,%22sizes%22:%22894x894%22,%22type%22:%22image/jpeg%22,%22purpose%22:%22any%20maskable%22}],%22theme_color%22:%22%230a0410%22,%22background_color%22:%22%230a0410%22,%22display%22:%22standalone%22,%22orientation%22:%22portrait%22}">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0410;
+    --surface: #1a0f2e;
+    --card: #2d1b4e;
+    --accent: #ffc107;
+    --accent2: #ffb300;
+    --gold: #ffdb58;
+    --text: #ffffff;
+    --muted: #b0a0d0;
+    --border: rgba(255, 193, 7, 0.15);
+    --input-bg: rgba(0, 0, 0, 0.2);
+    --green: #00ff88;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    height: 100%;
+    background: #0a0410;
+  }
+
+  input, button {
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #0a0410 0%, #1a0f2e 50%, #2d1b4e 100%);
+    background-attachment: fixed;
+    color: var(--text);
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-bottom: 0;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  body > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #0f0521 0%, #1a0f2e 50%, #2d1b4e 100%);
+    padding: 28px 20px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header h1 {
+    font-size: 22px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative; z-index: 1;
+  }
+  .header p { font-size: 13px; color: var(--muted); margin-top: 4px; position: relative; z-index: 1; }
+
+  .container { padding: 16px 16px 150px 16px; max-width: 500px; margin: 0 auto; }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 24px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0 12px;
+    width: 100%;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    overflow: hidden;
+    margin-bottom: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .input-row:last-child { border-bottom: none; }
+
+  .row-label { flex: 1; font-size: 16px; font-weight: 600; color: var(--text); }
+
+  .stepper-container {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1.5px solid rgba(255, 193, 7, 0.15);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .stepper-btn {
+    width: 32px; height: 42px;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+
+  .row-input {
+    background: transparent;
+    border: none;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-align: center;
+    width: 75px;
+    padding: 8px 4px;
+    outline: none;
+  }
+
+  .results-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    padding: 20px;
+    margin-top: 8px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .result-main { text-align: center; padding: 16px 0 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .result-main-label { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 4px; text-align: center; }
+  .result-main-value { font-size: 38px; font-weight: 900; background: linear-gradient(135deg, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  .result-total-iqd { text-align: center; background: rgba(62,207,142,0.08); border-radius: var(--radius-sm); padding: 12px; margin-top: 12px; }
+  .result-total-iqd .label { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-align: center; }
+  .result-total-iqd .value { font-size: 24px; font-weight: 900; color: var(--green); text-align: center; }
+
+  .floating-total {
+    position: fixed;
+    bottom: -100px; left: 0; right: 0;
+    background: rgba(10, 4, 16, 0.4);
+    border-top: 2px solid var(--accent);
+    padding: 12px 16px 120px 16px;
+    box-shadow: 0 -4px 20px rgba(255, 193, 7, 0.1);
+    z-index: 9999;
+    display: none;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+  }
+  
+  .floating-total::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -20px;
+    right: -20px;
+    height: 50px;
+    background: linear-gradient(180deg, rgba(10, 4, 16, 0.4) 0%, rgba(10, 4, 16, 0.8) 100%);
+    pointer-events: none;
+  }
+  .floating-total.show { display: block; }
+  .floating-content { max-width: 500px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .floating-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+  .save-pdf-btn {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin: 16px auto 0;
+    padding: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    color: #0f0f14;
+    font-family: 'Cairo', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+
+  .pdf-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 99999;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    overflow-y: auto;
+    padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  }
+  .pdf-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+
+  .pdf-modal {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 480px;
+    padding: 24px;
+    margin: auto;
+  }
+
+  .pdf-modal-title {
+    font-size: 18px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .pdf-modal-sub {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .pdf-input-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
+  }
+
+  .pdf-section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin: 18px 0 8px;
+  }
+
+  .pdf-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin-bottom: 8px;
+  }
+  .pdf-field label { font-size: 15px; font-weight: 600; color: #ffffff; }
+  .pdf-field input[type="text"] {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    width: 120px;
+    padding: 6px 8px;
+    outline: none;
+  }
+
+  .pdf-modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .pdf-cancel-btn {
+    padding: 13px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--muted);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .pdf-print-btn {
+    padding: 13px;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    border: none;
+    border-radius: var(--radius-sm);
+    color: #0f0f14;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>حاسبة تكلفة الطباعة</h1>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <div class="input-row">
+      <div class="row-label">سعر صرف الدولار</div>
+      <div class="stepper-container">
+        <button class="stepper-btn" onmousedown="startStep(event, 'exchangeRate', 50)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'exchangeRate', 50)" ontouchend="stopStep()">+</button>
+        <input class="row-input" type="text" inputmode="decimal" id="exchangeRate" value="1,550" oninput="formatInput(this)">
+        <button class="stepper-btn" onmousedown="startStep(event, 'exchangeRate', -50)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'exchangeRate', -50)" ontouchend="stopStep()">-</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">معلومات الأوردر</div>
+  <div class="card">
+    <div class="input-row">
+      <div class="row-label">عدد المطبوع</div>
+      <div class="stepper-container">
+        <button class="stepper-btn" onmousedown="startStep(event, 'printQty', 500)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'printQty', 500)" ontouchend="stopStep()">+</button>
+        <input class="row-input" type="text" inputmode="decimal" id="printQty" value="" placeholder="0" oninput="formatInput(this); updateAutoFields(); updateCostPrintFromRate();">
+        <button class="stepper-btn" onmousedown="startStep(event, 'printQty', -500)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'printQty', -500)" ontouchend="stopStep()">-</button>
+      </div>
+    </div>
+    <div class="input-row">
+      <div class="row-label">عدد التصميم على البند</div>
+      <div class="stepper-container">
+        <button class="stepper-btn" onmousedown="startStep(event, 'designPerItem', 1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'designPerItem', 1)" ontouchend="stopStep()">+</button>
+        <input class="row-input" type="text" inputmode="decimal" id="designPerItem" value="" placeholder="0" oninput="formatInput(this); updateAutoFields();">
+        <button class="stepper-btn" onmousedown="startStep(event, 'designPerItem', -1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'designPerItem', -1)" ontouchend="stopStep()">-</button>
+      </div>
+    </div>
+    <div class="input-row">
+      <div class="row-label">عدد الورق</div>
+      <div class="stepper-container">
+        <button class="stepper-btn" onmousedown="startStep(event, 'paperQty', 100)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'paperQty', 100)" ontouchend="stopStep()">+</button>
+        <input class="row-input" type="text" inputmode="decimal" id="paperQty" value="" placeholder="0" tabindex="2">
+        <button class="stepper-btn" onmousedown="startStep(event, 'paperQty', -100)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'paperQty', -100)" ontouchend="stopStep()">−</button>
+      </div>
+    </div>
+    <div class="input-row">
+      <div class="row-label">عدد ورق البند</div>
+      <div class="stepper-container">
+        <button class="stepper-btn" onmousedown="startStep(event, 'paperPerItem', 25)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'paperPerItem', 25)" ontouchend="stopStep()">+</button>
+        <input class="row-input" type="text" inputmode="decimal" id="paperPerItem" value="100" placeholder="0" oninput="formatInput(this); updateItemQtyFromPaper();">
+        <button class="stepper-btn" onmousedown="startStep(event, 'paperPerItem', -25)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'paperPerItem', -25)" ontouchend="stopStep()">−</button>
+      </div>
+    </div>
+    <div class="input-row">
+      <div class="row-label">عدد البند المطلوب</div>
+      <div class="stepper-container">
+        <button class="stepper-btn" onmousedown="startStep(event, 'itemQty', 0.5)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemQty', 0.5)" ontouchend="stopStep()">+</button>
+        <input class="row-input" type="text" inputmode="decimal" id="itemQty" value="" placeholder="0" oninput="formatInput(this); updateItemQtyRelated();">
+        <button class="stepper-btn" onmousedown="startStep(event, 'itemQty', -0.5)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemQty', -0.5)" ontouchend="stopStep()">-</button>
+      </div>
+    </div>
+    <div class="input-row">
+      <div class="row-label">سعر البند ($)</div>
+      <div class="stepper-container">
+        <button class="stepper-btn" onmousedown="startStep(event, 'itemPrice', 1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemPrice', 1)" ontouchend="stopStep()">+</button>
+        <input class="row-input" type="text" inputmode="decimal" id="itemPrice" value="35" oninput="formatInput(this)">
+        <button class="stepper-btn" onmousedown="startStep(event, 'itemPrice', -1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'itemPrice', -1)" ontouchend="stopStep()">-</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">تكاليف المواد (IQD)</div>
+  <div class="card">
+    <div class="input-row"><div class="row-label">سعر طبع 1000</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPrintPer1000', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrintPer1000', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costPrintPer1000" value="50,000" placeholder="0" oninput="formatInput(this); updateCostPrintFromRate();"><button class="stepper-btn" onmousedown="startStep(event, 'costPrintPer1000', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrintPer1000', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">طبع</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPrint', 10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrint', 10000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costPrint" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPrint', -10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPrint', -10000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">بليت</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPlate', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPlate', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costPlate" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPlate', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPlate', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">كص</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costCut', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCut', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costCut" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costCut', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCut', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">سلفنة</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costCello', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCello', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costCello" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costCello', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costCello', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">قالب</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costMold', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costMold', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costMold" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costMold', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costMold', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">لصق</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costGlue', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costGlue', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costGlue" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costGlue', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costGlue', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">سبوت يوڤي</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costUV', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costUV', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costUV" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costUV', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costUV', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">فويل</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costPack', 5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPack', 5000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costPack" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costPack', -5000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costPack', -5000)" ontouchend="stopStep()">-</button></div></div>
+    <div class="input-row"><div class="row-label">مصاريف اخرى</div><div class="stepper-container"><button class="stepper-btn" onmousedown="startStep(event, 'costOther', 1000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costOther', 1000)" ontouchend="stopStep()">+</button><input class="row-input" type="text" inputmode="decimal" id="costOther" value="" placeholder="0" oninput="formatInput(this)"><button class="stepper-btn" onmousedown="startStep(event, 'costOther', -1000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'costOther', -1000)" ontouchend="stopStep()">-</button></div></div>
+  </div>
+
+  <div class="section-divider"></div>
+  <div class="card">
+    <div class="input-row">
+      <div class="row-label">الارباح</div>
+      <div class="stepper-container">
+        <button class="stepper-btn" onmousedown="startStep(event, 'profitValue', 10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'profitValue', 10000)" ontouchend="stopStep()">+</button>
+        <input class="row-input" type="text" inputmode="decimal" id="profitValue" value="" placeholder="0" oninput="formatInput(this)">
+        <button class="stepper-btn" onmousedown="startStep(event, 'profitValue', -10000)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'profitValue', -10000)" ontouchend="stopStep()">-</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultsSection" style="display:none; margin-top:20px;">
+    <div class="section-title">النتائج</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;">
+      <div class="results-card" style="margin-top:0;">
+        <div class="result-main">
+          <div class="result-main-label">كلفة المفرد</div>
+          <div class="result-main-value" id="rPricePerPieceIQD" style="background: linear-gradient(135deg, var(--green), #2aad72); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">—</div>
+          <div style="font-size:14px; color:var(--muted);">دينار عراقي</div>
+          <div class="result-main-value" id="rPricePerPiece" style="font-size:20px; margin-top:6px;">—</div>
+          <div style="font-size:14px; color:var(--muted);">دولار أمريكي</div>
+        </div>
+        <div class="result-total-iqd">
+          <div class="label">إجمالي الكلفة</div>
+          <div class="value" id="rTotalIQD">—</div>
+          <div id="rTotalUSD" style="font-size:15px; color:rgba(62,207,142,0.6); margin-top:4px;">—</div>
+        </div>
+      </div>
+      <div class="results-card" style="margin-top:0;">
+        <div class="result-main">
+          <div class="result-main-label">سعر المفرد</div>
+          <div class="result-main-value" id="rPricePerPieceIQD_B" style="background: linear-gradient(135deg, var(--green), #2aad72); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">—</div>
+          <div style="font-size:14px; color:var(--muted);">دينار عراقي</div>
+          <div class="result-main-value" id="rPricePerPiece_B" style="font-size:20px; margin-top:6px;">—</div>
+          <div style="font-size:14px; color:var(--muted);">دولار أمريكي</div>
+        </div>
+        <div class="result-total-iqd">
+          <div class="label">إجمالي السعر</div>
+          <div class="value" id="rTotalIQD_B">—</div>
+          <div id="rTotalUSD_B" style="font-size:15px; color:rgba(62,207,142,0.6); margin-top:4px;">—</div>
+        </div>
+      </div>
+    </div>
+    <button class="save-pdf-btn" onclick="openPdfModal()">حفظ PDF</button>
+  </div>
+</div>
+
+<div class="pdf-overlay" id="pdfOverlay">
+  <div class="pdf-modal">
+    <div class="pdf-modal-title">حفظ كـ PDF</div>
+    <div class="pdf-modal-sub">أضف المعلومات قبل الطباعة</div>
+    <div class="pdf-section-label">معلومات الأوردر</div>
+    <div style="margin-bottom:8px;">
+      <div class="pdf-input-label">اسم الزبون</div>
+      <input type="text" id="pdfCustomer" placeholder="اختياري" style="width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Cairo',sans-serif; font-size:15px; font-weight:600; padding:10px 12px; outline:none; box-sizing:border-box;">
+    </div>
+    <div style="margin-bottom:8px;">
+      <div class="pdf-input-label">اسم العمل</div>
+      <textarea id="pdfJobName" placeholder="اختياري" rows="2" style="width:100%; background:var(--input-bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Cairo',sans-serif; font-size:15px; font-weight:600; padding:10px 12px; outline:none; box-sizing:border-box; resize:vertical; min-height:52px;"></textarea>
+    </div>
+    <div class="pdf-field">
+      <label>التاريخ</label>
+      <input type="text" id="pdfDate" placeholder="">
+    </div>
+    <div class="pdf-modal-actions">
+      <button class="pdf-cancel-btn" onclick="closePdfModal()">إلغاء</button>
+      <button class="pdf-print-btn" onclick="doPrint()">حفظ PDF</button>
+    </div>
+  </div>
+</div>
+
+<div class="floating-total" id="floatingTotal">
+  <div class="floating-content">
+    <div style="text-align: right;">
+      <div class="floating-label">للقطعة الواحدة</div>
+      <div id="floatPPPIQD" style="font-size: 22px; font-weight: 900; color: var(--green); line-height: 1.2;">— IQD</div>
+      <div id="floatPPPUSD" style="font-size: 14px; font-weight: 400; color: var(--muted); line-height: 1.2;">— $</div>
+    </div>
+    <div style="text-align: left;">
+      <div class="floating-label">إجمالي الطلب</div>
+      <div id="floatTotalIQD" style="font-size: 18px; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">— IQD</div>
+      <div id="floatTotalUSD" style="font-size: 12px; color: var(--muted);">— USD</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let stepInterval = null;
+  let stepTimeout = null;
+  let lastActionTime = 0;
+
+  // Define focus order for Tab/Enter navigation
+  const focusOrder = [
+    'exchangeRate', 'printQty', 'designPerItem', 'itemQty', 'itemPrice',
+    'costPrintPer1000', 'costPrint', 'costPlate', 'costCut', 'costCello', 'costMold', 'costGlue', 'costUV', 'costPack', 'costOther', 'profitValue'
+  ];
+
+  function moveFocus(currentId, forward = true) {
+    let currentIndex = focusOrder.indexOf(currentId);
+    if (currentIndex === -1) return;
+    let nextIndex = forward ? currentIndex + 1 : currentIndex - 1;
+    if (nextIndex >= 0 && nextIndex < focusOrder.length) {
+      let nextId = focusOrder[nextIndex];
+      let nextEl = document.getElementById(nextId);
+      if (nextEl) {
+        nextEl.focus();
+        nextEl.select();
+      }
+    }
+  }
+
+  // Attach keydown handler to all inputs
+  function attachTabHandler() {
+    for (let id of focusOrder) {
+      let el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('keydown', function(e) {
+          // Tab key (keyCode 9) or Enter key (13) - Android "Next" often sends Enter
+          if (e.key === 'Tab' || e.key === 'Enter') {
+            e.preventDefault();
+            moveFocus(this.id, true);
+          }
+        });
+      }
+    }
+  }
+
+  function formatNumber(n) {
+    if (n === "" || n === null || isNaN(n)) return "";
+    let parts = n.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+
+  function parseNumber(s) {
+    if (!s) return 0;
+    return parseFloat(s.toString().replace(/,/g, "")) || 0;
+  }
+
+  function formatInput(el) {
+    let cursor = el.selectionStart;
+    let oldLen = el.value.length;
+    let val = el.value.replace(/,/g, "");
+    
+    if (val === "") {
+        el.value = "";
+    } else if (!isNaN(val)) {
+        el.value = formatNumber(val);
+    }
+    
+    let newLen = el.value.length;
+    if (document.activeElement === el && typeof el.setSelectionRange === 'function') {
+        let pos = cursor + (newLen - oldLen);
+        el.setSelectionRange(pos, pos);
+    }
+    triggerCalculate();
+  }
+
+  function step(id, v) {
+    let el = document.getElementById(id);
+    let current = parseNumber(el.value);
+    let newVal = Math.max(0, current + v);
+    el.value = formatNumber(newVal);
+    if (id === 'printQty' || id === 'designPerItem') updateAutoFields();
+    if (id === 'printQty') updateCostPrintFromRate();
+    if (id === 'costPrintPer1000') updateCostPrintFromRate();
+    if (id === 'paperQty') updateItemQtyFromPaper();
+    if (id === 'paperPerItem') updateItemQtyFromPaper();
+    if (id === 'itemQty') updateItemQtyRelated();
+    calculate();
+  }
+
+  function startStep(e, id, v) {
+    if (e.type === 'mousedown' && 'ontouchstart' in window) return;
+    e.preventDefault();
+    let now = Date.now();
+    if (now - lastActionTime < 150) return;
+    lastActionTime = now;
+    step(id, v);
+    stopStep();
+    stepTimeout = setTimeout(() => {
+      stepInterval = setInterval(() => {
+        step(id, v);
+      }, 100); 
+    }, 650);
+  }
+
+  function stopStep() {
+    clearTimeout(stepTimeout);
+    clearInterval(stepInterval);
+  }
+
+  function updateCostPrintFromRate() {
+    let rate = v('costPrintPer1000');
+    let qty = v('printQty');
+    let autoPrintCost = (rate / 1000) * qty;
+    document.getElementById('costPrint').value = autoPrintCost === 0 ? "" : formatNumber(autoPrintCost);
+    triggerCalculate();
+  }
+
+  function updateItemQtyRelated() {
+    triggerCalculate();
+  }
+
+  function updateAutoFields() {
+    let qty = v('printQty');
+    let des = v('designPerItem');
+    
+    if (qty === 0 && des === 0) {
+        document.getElementById('paperQty').value = "";
+        document.getElementById('itemQty').value = "";
+        return;
+    }
+    let paperQty = des > 0 ? Math.ceil(qty / des) : 0;
+    document.getElementById('paperQty').value = paperQty === 0 ? "" : formatNumber(paperQty);
+    let paperPerItem = v('paperPerItem');
+    let itemQtyExact = paperPerItem > 0 ? paperQty / paperPerItem : 0;
+    let itemQty = Math.ceil(itemQtyExact * 2) / 2;
+    document.getElementById('itemQty').value = itemQty === 0 ? "" : formatNumber(itemQty);
+  }
+  
+  function updateItemQtyFromPaper() {
+    let paperQty = v('paperQty');
+    let paperPerItem = v('paperPerItem');
+    let itemQtyExact = paperPerItem > 0 ? paperQty / paperPerItem : 0;
+    let itemQty = Math.ceil(itemQtyExact * 2) / 2;
+    document.getElementById('itemQty').value = itemQty === 0 ? "" : formatNumber(itemQty);
+  }
+
+  const costFields = ['costPrint','costPlate','costCut','costCello','costMold','costGlue','costUV','costPack','costOther'];
+  function getTotalMaterialCosts() {
+    return costFields.reduce((sum, id) => sum + v(id), 0);
+  }
+
+  function v(id) { return parseNumber(document.getElementById(id).value); }
+  function fmt(n, dec=2) { return n.toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec}); }
+
+  let calculateDebounce = null;
+  function triggerCalculate() {
+    clearTimeout(calculateDebounce);
+    calculateDebounce = setTimeout(calculate, 60);
+  }
+
+  function calculate() {
+    let ex = v('exchangeRate');
+    let qty = v('printQty');
+    let itemQty = v('itemQty');
+    let itemPrice = v('itemPrice');
+    let iqdMaterials = getTotalMaterialCosts();
+    let materialsInUSD = ex > 0 ? iqdMaterials / ex : 0;
+    let itemResultUSD = itemQty * itemPrice;
+    let totalMaterialsUSD = materialsInUSD + itemResultUSD;
+    let pieces = qty;
+    let totalUSD = totalMaterialsUSD;
+    let ppp = pieces > 0 ? totalUSD / pieces : 0;
+    let pppIQD = ppp * ex;
+    document.getElementById('rPricePerPiece').textContent = fmt(ppp, 4);
+    document.getElementById('rPricePerPieceIQD').textContent = fmt(pppIQD, 0);
+    document.getElementById('rTotalIQD').textContent = fmt(totalUSD * ex, 0) + ' IQD';
+    document.getElementById('rTotalUSD').textContent = fmt(totalUSD, 2) + ' USD';
+    let profitIQD = v('profitValue');
+    let profitUSD = ex > 0 ? profitIQD / ex : 0;
+    let totalWithProfit = totalUSD + profitUSD;
+    let pppWithProfit = pieces > 0 ? totalWithProfit / pieces : 0;
+    let pppWithProfitIQD = pppWithProfit * ex;
+    document.getElementById('rPricePerPiece_B').textContent = fmt(pppWithProfit, 4);
+    document.getElementById('rPricePerPieceIQD_B').textContent = fmt(pppWithProfitIQD, 0);
+    document.getElementById('rTotalIQD_B').textContent = fmt(totalWithProfit * ex, 0) + ' IQD';
+    document.getElementById('rTotalUSD_B').textContent = fmt(totalWithProfit, 2) + ' USD';
+    let hasInput = qty > 0 || totalUSD > 0;
+    document.getElementById('resultsSection').style.display = hasInput ? 'block' : 'none';
+    if (!hasInput) { document.getElementById('floatingTotal').classList.remove('show'); return; }
+    updateFloatingBar(pppIQD, ppp, totalUSD, ex);
+  }
+
+  function updateFloatingBar(pppIQD, ppp, totalUSD, ex) {
+    document.getElementById('floatPPPIQD').textContent = fmt(pppIQD, 0) + ' IQD';
+    document.getElementById('floatPPPUSD').textContent = fmt(ppp, 4) + ' $';
+    document.getElementById('floatTotalIQD').textContent = fmt(totalUSD * ex, 0) + ' IQD';
+    document.getElementById('floatTotalUSD').textContent = fmt(totalUSD, 2) + ' USD';
+    document.getElementById('floatingTotal').classList.add('show');
+  }
+
+  let _pdfBase = {};
+  function openPdfModal() {
+    let ex = v('exchangeRate');
+    let qty = v('printQty');
+    let iqdMaterials = getTotalMaterialCosts();
+    let materialsInUSD = ex > 0 ? iqdMaterials / ex : 0;
+    let totalUSD = materialsInUSD + v('itemQty') * v('itemPrice');
+    _pdfBase = { ex, qty, totalUSD };
+    if (!document.getElementById('pdfDate').value) {
+      let now = new Date();
+      document.getElementById('pdfDate').value = now.getFullYear() + '/' + (now.getMonth()+1).toString().padStart(2,'0') + '/' + now.getDate().toString().padStart(2,'0');
+    }
+    document.getElementById('pdfOverlay').classList.add('open');
+  }
+  function closePdfModal() { document.getElementById('pdfOverlay').classList.remove('open'); }
+  function formatFilename(customer, jobName, date) {
+    let getWords = (text) => { if (!text) return 'بدون_عنوان'; let words = text.trim().split(/\s+/).slice(0,2); return words.join('_'); };
+    let dateYYMMDD = date.split('/').map((part,i) => i===0 ? part.slice(-2) : part).join('');
+    return getWords(customer) + '_' + getWords(jobName) + '_' + dateYYMMDD;
+  }
+  function doPrint() {
+    let { ex, qty, totalUSD } = _pdfBase;
+    let profitIQD = v('profitValue');
+    let totalWithProfit = totalUSD + (ex > 0 ? profitIQD / ex : 0);
+    let costPPP = qty > 0 ? totalUSD / qty : 0;
+    let pricePPP = qty > 0 ? totalWithProfit / qty : 0;
+    let customer = document.getElementById('pdfCustomer').value.trim();
+    let jobName = document.getElementById('pdfJobName').value.trim();
+    let date = document.getElementById('pdfDate').value.trim();
+    let costs = { print: v('costPrint'), plate: v('costPlate'), cut: v('costCut'), cello: v('costCello'), mold: v('costMold'), glue: v('costGlue'), uv: v('costUV'), foil: v('costPack'), other: v('costOther') };
+    function val(n, dec=0) { return n > 0 ? fmt(n, dec) : '—'; }
+    let html = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>طباعة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: 'Cairo', sans-serif; direction: rtl; color: #000; background: #fff; width: 210mm; height: 297mm; overflow: hidden; }
+  body { padding: 20mm 19.5mm 10mm 19.5mm; position: relative; }
+  .hdr-row { display: flex; align-items: center; gap: 4mm; height: 14.25mm; border-bottom: 0.5pt solid #b2b2b2; font-size: 12.5pt; }
+  .hdr-row:first-child { border-top: 0.5pt solid #b2b2b2; }
+  .hdr-lbl { font-weight: 900; white-space: nowrap; }
+  .hdr-val { font-weight: 400; }
+  .hdr-split { display: flex; align-items: center; height: 14.25mm; border-bottom: 0.5pt solid #b2b2b2; font-size: 12.5pt; }
+  .hdr-split-right { flex: 1; display: flex; align-items: center; gap: 3mm; }
+  .hdr-split-left { flex: 1; display: flex; align-items: center; gap: 3mm; }
+  .sec-title { font-size: 13pt; font-weight: 900; text-decoration: underline; text-align: right; margin-top: 5mm; margin-bottom: 2mm; }
+  .mat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1pt solid #000; }
+  .mat-cell { display: flex; align-items: center; gap: 3mm; height: 12mm; border-bottom: 0.5pt solid #9d9d9c; font-size: 12pt; padding: 0 2mm; }
+  .mc-lbl { font-weight: 600; }
+  .mc-val { font-weight: 400; color: #333; }
+  .profit-pill { display: flex; align-items: center; justify-content: center; gap: 8mm; border: 1.5pt solid #000; border-radius: 30pt; padding: 3mm 16mm; margin: 5mm auto; width: fit-content; font-size: 13.5pt; }
+  .pp-lbl { font-weight: 700; }
+  .pp-val { font-weight: 900; }
+  .results-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1.5pt solid #000; margin-top: 5mm; }
+  .res-right { border-left: 0.5pt solid #b2b2b2; padding: 0 2mm; }
+  .res-left { padding: 0 2mm; }
+  .res-row { display: flex; align-items: center; gap: 4mm; height: 15.9mm; border-bottom: 0.5pt solid #b2b2b2; font-size: 12pt; }
+  .res-row:last-child { border-bottom: none; }
+  .res-lbl { font-weight: 600; color: #333; }
+  .res-val-main { font-weight: 900; font-size: 16pt; }
+  .res-val-total { font-weight: 700; font-size: 13pt; }
+  .notes-title { font-size: 13pt; font-weight: 900; text-decoration: underline; text-align: right; margin-top: 5mm; margin-bottom: 1mm; }
+  .note-line { border-bottom: 0.5pt dashed #b2b2b2; height: 13mm; }
+  .footer { position: absolute; bottom: 10mm; right: 19.5mm; left: 19.5mm; display: flex; align-items: center; gap: 3mm; border-top: 0.5pt dashed #b2b2b2; padding-top: 2.5mm; font-size: 12pt; }
+  .f-lbl { font-weight: 700; }
+  .f-val { font-weight: 400; }
+  @page { size: A4; margin: 0; }
+  @media print { html, body { width: 210mm; height: 297mm; } }
+</style>
+</head>
+<body>
+  <div class="hdr-row"><span class="hdr-lbl">التاريخ:</span><span class="hdr-val">${date}</span></div>
+  <div class="hdr-row"><span class="hdr-lbl">اسم الزبون:</span><span class="hdr-val">${customer}</span></div>
+  <div class="hdr-row"><span class="hdr-lbl">اسم العمل:</span><span class="hdr-val">${jobName}</span></div>
+  <div class="hdr-split"><div class="hdr-split-right"><span class="hdr-lbl">كمية المطبوع:</span><span>${fmt(qty,0)}</span></div><div class="hdr-split-left"><span class="hdr-lbl">سعر البند ($):</span><span>${fmt(v('itemPrice'),2)}</span></div></div>
+  <div class="sec-title">تكاليف المواد</div>
+  <div class="mat-grid">
+    <div class="mat-cell"><span class="mc-lbl">طبع</span><span class="mc-val">${val(costs.print)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">سلفنة</span><span class="mc-val">${val(costs.cello)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">سبوت يوڤي</span><span class="mc-val">${val(costs.uv)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">بليت</span><span class="mc-val">${val(costs.plate)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">قالب</span><span class="mc-val">${val(costs.mold)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">فويل</span><span class="mc-val">${val(costs.foil)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">كص</span><span class="mc-val">${val(costs.cut)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">لصق</span><span class="mc-val">${val(costs.glue)}</span></div>
+    <div class="mat-cell"><span class="mc-lbl">مصاريف اخرى</span><span class="mc-val">${val(costs.other)}</span></div>
+  </div>
+  <div class="profit-pill"><span class="pp-lbl">الارباح</span><span class="pp-val">${val(profitIQD)}</span></div>
+  <div class="sec-title">الكلفة والسعر</div>
+  <div class="results-grid">
+    <div class="res-right"><div class="res-row"><span class="res-lbl">كلفة المفرد</span><span class="res-val-main">${fmt(costPPP * ex, 0)}</span></div><div class="res-row"><span class="res-lbl">الكلفة الاجمالية</span><span class="res-val-total">${fmt(totalUSD * ex, 0)}</span></div></div>
+    <div class="res-left"><div class="res-row"><span class="res-lbl">سعر المفرد</span><span class="res-val-main">${fmt(pricePPP * ex, 0)}</span></div><div class="res-row"><span class="res-lbl">السعر الاجمالي</span><span class="res-val-total">${fmt(totalWithProfit * ex, 0)}</span></div></div>
+  </div>
+  <div class="notes-title">الملاحظات</div>
+  <div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div>
+  <div class="footer"><span class="f-lbl">سعر الدولار</span><span class="f-val">${fmt(ex, 0)}</span></div>
+</body></html>`;
+    let pw = window.open('', '_blank', 'width=900,height=1200');
+    pw.document.write(html);
+    pw.document.close();
+    pw.onload = function() { setTimeout(() => { let filename = formatFilename(customer, jobName, date); pw.document.title = filename; pw.focus(); pw.print(); }, 800); };
+    closePdfModal();
+  }
+
+  // Initialize
+  attachTabHandler();
+  
+  // Add event listener for paperQty manual input
+  document.getElementById('paperQty').addEventListener('input', function() {
+    updateItemQtyFromPaper();
+    triggerCalculate();
+  });
+  
+  calculate();
+</script>
+</body>
+</html>
