@@ -386,7 +386,7 @@
       <div class="row-label">عدد التصميم على البند</div>
       <div class="stepper-container">
         <button class="stepper-btn" onmousedown="startStep(event, 'designPerItem', 1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'designPerItem', 1)" ontouchend="stopStep()">+</button>
-        <input class="row-input" type="text" inputmode="decimal" id="designPerItem" value="" placeholder="0" oninput="formatInput(this); updateAutoFields();">
+        <input class="row-input" type="text" inputmode="decimal" id="designPerItem" value="" placeholder="0" oninput="formatInput(this); updateAutoFields(); updateCostPrintFromRate();">
         <button class="stepper-btn" onmousedown="startStep(event, 'designPerItem', -1)" onmouseup="stopStep()" onmouseleave="stopStep()" ontouchstart="startStep(event, 'designPerItem', -1)" ontouchend="stopStep()">-</button>
       </div>
     </div>
@@ -603,9 +603,10 @@
     let newVal = Math.max(0, current + v);
     el.value = formatNumber(newVal);
     if (id === 'printQty' || id === 'designPerItem') updateAutoFields();
+    if (id === 'printQty' || id === 'designPerItem') updateCostPrintFromRate();
     if (id === 'printQty') updateCostPrintFromRate();
     if (id === 'costPrintPer1000') updateCostPrintFromRate();
-    if (id === 'paperQty') updateItemQtyFromPaper();
+    if (id === 'paperQty') { updateItemQtyFromPaper(); updateCostPrintFromRate(); }
     if (id === 'paperPerItem') updateItemQtyFromPaper();
     if (id === 'itemQty') updateItemQtyRelated();
     calculate();
@@ -633,7 +634,7 @@
 
   function updateCostPrintFromRate() {
     let rate = v('costPrintPer1000');
-    let qty = v('printQty');
+    let qty = v('paperQty');
     let autoPrintCost = (rate / 1000) * qty;
     document.getElementById('costPrint').value = autoPrintCost === 0 ? "" : formatNumber(autoPrintCost);
     triggerCalculate();
@@ -835,6 +836,7 @@
   // Add event listener for paperQty manual input
   document.getElementById('paperQty').addEventListener('input', function() {
     updateItemQtyFromPaper();
+    updateCostPrintFromRate();
     triggerCalculate();
   });
   
